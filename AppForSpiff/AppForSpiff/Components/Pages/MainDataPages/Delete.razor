@@ -1,0 +1,239 @@
+﻿@page "/maindata/delete"
+@using Microsoft.EntityFrameworkCore
+@using AppForSpiff.Models
+@inject IDbContextFactory<AppForSpiff.Data.AppForSpiffContext> DbFactory
+@inject NavigationManager NavigationManager
+
+<PageTitle>Delete</PageTitle>
+
+<h1>Delete</h1>
+
+<p>Are you sure you want to delete this?</p>
+<div>
+    <h2>MainData</h2>
+    <hr />
+    @if (maindata is null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else {
+        <dl class="row">
+            <dt class="col-sm-2">Inv_InvoiceHeader_ID</dt>
+            <dd class="col-sm-10">@maindata.Inv_InvoiceHeader_ID</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">DealerCode</dt>
+            <dd class="col-sm-10">@maindata.DealerCode</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">SalesmanEmployee_ID</dt>
+            <dd class="col-sm-10">@maindata.SalesmanEmployee_ID</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">CashoutEmployee_ID</dt>
+            <dd class="col-sm-10">@maindata.CashoutEmployee_ID</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">InspectedByEmployee_ID</dt>
+            <dd class="col-sm-10">@maindata.InspectedByEmployee_ID</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">Channel_Number</dt>
+            <dd class="col-sm-10">@maindata.Channel_Number</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">InvoiceCompletedDateTime_Loc</dt>
+            <dd class="col-sm-10">@maindata.InvoiceCompletedDateTime_Loc</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">InvoiceNumber</dt>
+            <dd class="col-sm-10">@maindata.InvoiceNumber</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">SumTotalInvoiceDiscountApplied_Stage04</dt>
+            <dd class="col-sm-10">@maindata.SumTotalInvoiceDiscountApplied_Stage04</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">TotalPackageLineCoupon</dt>
+            <dd class="col-sm-10">@maindata.TotalPackageLineCoupon</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">TotalPackageLineDiscount</dt>
+            <dd class="col-sm-10">@maindata.TotalPackageLineDiscount</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">TotalInvoiceCoupon</dt>
+            <dd class="col-sm-10">@maindata.TotalInvoiceCoupon</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">TotalInvoiceDiscount</dt>
+            <dd class="col-sm-10">@maindata.TotalInvoiceDiscount</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">InvoiceTotal</dt>
+            <dd class="col-sm-10">@maindata.InvoiceTotal</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">TotalAmountPaid</dt>
+            <dd class="col-sm-10">@maindata.TotalAmountPaid</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">TotalServiceLines</dt>
+            <dd class="col-sm-10">@maindata.TotalServiceLines</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">TotalPartLines</dt>
+            <dd class="col-sm-10">@maindata.TotalPartLines</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">Employee_ID</dt>
+            <dd class="col-sm-10">@maindata.Employee_ID</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">FirstName</dt>
+            <dd class="col-sm-10">@maindata.FirstName</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">LastName</dt>
+            <dd class="col-sm-10">@maindata.LastName</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">Role</dt>
+            <dd class="col-sm-10">@maindata.Role</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">TerminationDate_Loc</dt>
+            <dd class="col-sm-10">@maindata.TerminationDate_Loc</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">PackageItem_ID</dt>
+            <dd class="col-sm-10">@maindata.PackageItem_ID</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">Svs_Service_ID</dt>
+            <dd class="col-sm-10">@maindata.Svs_Service_ID</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">Svs_GLAccountList_ID</dt>
+            <dd class="col-sm-10">@maindata.Svs_GLAccountList_ID</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">Svs_InvoiceHeader_ID</dt>
+            <dd class="col-sm-10">@maindata.Svs_InvoiceHeader_ID</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">LineNumber</dt>
+            <dd class="col-sm-10">@maindata.LineNumber</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">UnitPrice</dt>
+            <dd class="col-sm-10">@maindata.UnitPrice</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">UnitPrice_ForAssociateCustomerOnly</dt>
+            <dd class="col-sm-10">@maindata.UnitPrice_ForAssociateCustomerOnly</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">Quantity</dt>
+            <dd class="col-sm-10">@maindata.Quantity</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">GrossTotal</dt>
+            <dd class="col-sm-10">@maindata.GrossTotal</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">CouponAmount_LineItemLevel</dt>
+            <dd class="col-sm-10">@maindata.CouponAmount_LineItemLevel</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">CouponPercent_LineItemLevel</dt>
+            <dd class="col-sm-10">@maindata.CouponPercent_LineItemLevel</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">TotalLineCouponApplied_Stage01</dt>
+            <dd class="col-sm-10">@maindata.TotalLineCouponApplied_Stage01</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">CouponAmount_InvoiceLevel</dt>
+            <dd class="col-sm-10">@maindata.CouponAmount_InvoiceLevel</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">CouponPercent_InvoiceLevel</dt>
+            <dd class="col-sm-10">@maindata.CouponPercent_InvoiceLevel</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">TotalInvoiceCouponApplied_Stage02</dt>
+            <dd class="col-sm-10">@maindata.TotalInvoiceCouponApplied_Stage02</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">DiscountAmount_LineItemLevel</dt>
+            <dd class="col-sm-10">@maindata.DiscountAmount_LineItemLevel</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">DiscountPercent_LineItemLevel</dt>
+            <dd class="col-sm-10">@maindata.DiscountPercent_LineItemLevel</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">TotalLineDiscountApplied_Stage03</dt>
+            <dd class="col-sm-10">@maindata.TotalLineDiscountApplied_Stage03</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">DiscountAmount_InvoiceLevel</dt>
+            <dd class="col-sm-10">@maindata.DiscountAmount_InvoiceLevel</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">DiscountPercent_InvoiceLevel</dt>
+            <dd class="col-sm-10">@maindata.DiscountPercent_InvoiceLevel</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">TotalInvoiceDiscountApplied_Stage04</dt>
+            <dd class="col-sm-10">@maindata.TotalInvoiceDiscountApplied_Stage04</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">SalespersonEmployee_ID</dt>
+            <dd class="col-sm-10">@maindata.SalespersonEmployee_ID</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">ServiceCode</dt>
+            <dd class="col-sm-10">@maindata.ServiceCode</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">ServiceName</dt>
+            <dd class="col-sm-10">@maindata.ServiceName</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">Description</dt>
+            <dd class="col-sm-10">@maindata.Description</dd>
+        </dl>
+        <EditForm method="post" Model="maindata" OnValidSubmit="DeleteMainData" FormName="delete" Enhance>
+            <button type="submit" class="btn btn-danger" disabled="@(maindata is null)">Delete</button> |
+            <a href="/maindata">Back to List</a>
+        </EditForm>
+    }
+</div>
+
+@code {
+    private MainData? maindata;
+
+    [SupplyParameterFromQuery]
+    private long? InvoiceHeader_Service_ID { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        using var context = DbFactory.CreateDbContext();
+        maindata = await context.MainData.FirstOrDefaultAsync(m => m.InvoiceHeader_Service_ID == InvoiceHeader_Service_ID);
+
+        if (maindata is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+        }
+    }
+
+    private async Task DeleteMainData()
+    {
+        using var context = DbFactory.CreateDbContext();
+        context.MainData.Remove(maindata!);
+        await context.SaveChangesAsync();
+        NavigationManager.NavigateTo("/maindata");
+    }
+}

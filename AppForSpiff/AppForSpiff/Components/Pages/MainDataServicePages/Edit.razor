@@ -1,0 +1,114 @@
+﻿@page "/maindataservices/edit"
+@using Microsoft.EntityFrameworkCore
+@using AppForSpiff.Models
+@inject IDbContextFactory<AppForSpiff.Data.AppForSpiffContext> DbFactory
+@inject NavigationManager NavigationManager
+
+<PageTitle>Edit</PageTitle>
+
+<h1>Edit</h1>
+
+<h2>MainDataService</h2>
+<hr />
+@if (MainDataService is null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <div class="row">
+        <div class="col-md-4">
+            <EditForm method="post" Model="MainDataService" OnValidSubmit="UpdateMainDataService" FormName="edit" Enhance>
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+                <input type="hidden" name="MainDataService.Service_ID" value="@MainDataService.Service_ID" />
+                <div class="mb-3">
+                    <label for="dealercode" class="form-label">DealerCode:</label>
+                    <InputText id="dealercode" @bind-Value="MainDataService.DealerCode" class="form-control" />
+                    <ValidationMessage For="() => MainDataService.DealerCode" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="servicecode" class="form-label">ServiceCode:</label>
+                    <InputText id="servicecode" @bind-Value="MainDataService.ServiceCode" class="form-control" />
+                    <ValidationMessage For="() => MainDataService.ServiceCode" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="servicename" class="form-label">ServiceName:</label>
+                    <InputText id="servicename" @bind-Value="MainDataService.ServiceName" class="form-control" />
+                    <ValidationMessage For="() => MainDataService.ServiceName" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="description" class="form-label">Description:</label>
+                    <InputText id="description" @bind-Value="MainDataService.Description" class="form-control" />
+                    <ValidationMessage For="() => MainDataService.Description" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="required_channel" class="form-label">Required_Channel:</label>
+                    <InputNumber id="required_channel" @bind-Value="MainDataService.Required_Channel" class="form-control" />
+                    <ValidationMessage For="() => MainDataService.Required_Channel" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="min_sell_price" class="form-label">Min_Sell_Price:</label>
+                    <InputNumber id="min_sell_price" @bind-Value="MainDataService.Min_Sell_Price" class="form-control" />
+                    <ValidationMessage For="() => MainDataService.Min_Sell_Price" class="text-danger" />
+                </div>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </EditForm>
+        </div>
+    </div>
+}
+
+<div>
+    <a href="/maindataservices">Back to List</a>
+</div>
+
+@code {
+    [SupplyParameterFromQuery]
+    private long Service_ID { get; set; }
+
+    [SupplyParameterFromForm]
+    private MainDataService? MainDataService { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        using var context = DbFactory.CreateDbContext();
+        MainDataService ??= await context.MainDataService.FirstOrDefaultAsync(m => m.Service_ID == Service_ID);
+
+        if (MainDataService is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+        }
+    }
+
+    // To protect from overposting attacks, enable the specific properties you want to bind to.
+    // For more information, see https://learn.microsoft.com/aspnet/core/blazor/forms/#mitigate-overposting-attacks.
+    private async Task UpdateMainDataService()
+    {
+        using var context = DbFactory.CreateDbContext();
+        context.Attach(MainDataService!).State = EntityState.Modified;
+
+        try
+        {
+            await context.SaveChangesAsync();
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            if (!MainDataServiceExists(MainDataService!.Service_ID))
+            {
+                NavigationManager.NavigateTo("notfound");
+            }
+            else
+            {
+                throw;
+            }
+        }
+
+        NavigationManager.NavigateTo("/maindataservices");
+    }
+
+    private bool MainDataServiceExists(long service_id)
+    {
+        using var context = DbFactory.CreateDbContext();
+        return context.MainDataService.Any(e => e.Service_ID == service_id);
+    }
+}

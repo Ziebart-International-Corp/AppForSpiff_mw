@@ -1,0 +1,87 @@
+﻿@page "/maindatapackages/delete"
+@using Microsoft.EntityFrameworkCore
+@using AppForSpiff.Models
+@inject IDbContextFactory<AppForSpiff.Data.AppForSpiffContext> DbFactory
+@inject NavigationManager NavigationManager
+
+<PageTitle>Delete</PageTitle>
+
+<h1>Delete</h1>
+
+<p>Are you sure you want to delete this?</p>
+<div>
+    <h2>MainDataPackage</h2>
+    <hr />
+    @if (maindatapackage is null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else {
+        <dl class="row">
+            <dt class="col-sm-2">P_Service_ID</dt>
+            <dd class="col-sm-10">@maindatapackage.P_Service_ID</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">DealerCode</dt>
+            <dd class="col-sm-10">@maindatapackage.DealerCode</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">Title</dt>
+            <dd class="col-sm-10">@maindatapackage.Title</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">Channel_Number</dt>
+            <dd class="col-sm-10">@maindatapackage.Channel_Number</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">ServiceCode</dt>
+            <dd class="col-sm-10">@maindatapackage.ServiceCode</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">Five_Plus</dt>
+            <dd class="col-sm-10">@maindatapackage.Five_Plus</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">Under_Five</dt>
+            <dd class="col-sm-10">@maindatapackage.Under_Five</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">Required_Channel</dt>
+            <dd class="col-sm-10">@maindatapackage.Required_Channel</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">Min_Sell_Price</dt>
+            <dd class="col-sm-10">@maindatapackage.Min_Sell_Price</dd>
+        </dl>
+        <EditForm method="post" Model="maindatapackage" OnValidSubmit="DeleteMainDataPackage" FormName="delete" Enhance>
+            <button type="submit" class="btn btn-danger" disabled="@(maindatapackage is null)">Delete</button> |
+            <a href="/maindatapackages">Back to List</a>
+        </EditForm>
+    }
+</div>
+
+@code {
+    private MainDataPackage? maindatapackage;
+
+    [SupplyParameterFromQuery]
+    private long PackageItem_ID { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        using var context = DbFactory.CreateDbContext();
+        maindatapackage = await context.MainDataPackage.FirstOrDefaultAsync(m => m.PackageItem_ID == PackageItem_ID);
+
+        if (maindatapackage is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+        }
+    }
+
+    private async Task DeleteMainDataPackage()
+    {
+        using var context = DbFactory.CreateDbContext();
+        context.MainDataPackage.Remove(maindatapackage!);
+        await context.SaveChangesAsync();
+        NavigationManager.NavigateTo("/maindatapackages");
+    }
+}

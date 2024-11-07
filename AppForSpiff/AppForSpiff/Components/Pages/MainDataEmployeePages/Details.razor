@@ -1,0 +1,54 @@
+﻿@page "/maindataemployees/details"
+@using Microsoft.EntityFrameworkCore
+@using AppForSpiff.Models
+@inject IDbContextFactory<AppForSpiff.Data.AppForSpiffContext> DbFactory
+@inject NavigationManager NavigationManager
+
+<PageTitle>Details</PageTitle>
+
+<h1>Details</h1>
+
+<div>
+    <h2>MainDataEmployee</h2>
+    <hr />
+    @if (maindataemployee is null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else {
+        <dl class="row">
+            <dt class="col-sm-2">DealerCode</dt>
+            <dd class="col-sm-10">@maindataemployee.DealerCode</dd>
+            <dt class="col-sm-2">FirstName</dt>
+            <dd class="col-sm-10">@maindataemployee.FirstName</dd>
+            <dt class="col-sm-2">LastName</dt>
+            <dd class="col-sm-10">@maindataemployee.LastName</dd>
+            <dt class="col-sm-2">Role</dt>
+            <dd class="col-sm-10">@maindataemployee.Role</dd>
+            <dt class="col-sm-2">Spiff_Percent</dt>
+            <dd class="col-sm-10">@maindataemployee.Spiff_Percent</dd>
+        </dl>
+        <div>
+            <a href="@($"/maindataemployees/edit?edl_employee_id={maindataemployee.Edl_Employee_ID}")">Edit</a> |
+            <a href="@($"/maindataemployees")">Back to List</a>
+        </div>
+    }
+</div>
+
+@code {
+    private MainDataEmployee? maindataemployee;
+
+    [SupplyParameterFromQuery]
+    private long Edl_Employee_ID { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        using var context = DbFactory.CreateDbContext();
+        maindataemployee = await context.MainDataEmployee.FirstOrDefaultAsync(m => m.Edl_Employee_ID == Edl_Employee_ID);
+
+        if (maindataemployee is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+        }
+    }
+}

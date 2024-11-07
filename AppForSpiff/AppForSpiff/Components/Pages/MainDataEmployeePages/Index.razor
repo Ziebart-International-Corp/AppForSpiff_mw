@@ -1,0 +1,40 @@
+﻿@page "/maindataemployees"
+@using Microsoft.EntityFrameworkCore
+@using Microsoft.AspNetCore.Components.QuickGrid
+@using AppForSpiff.Models
+@using AppForSpiff.Data
+@implements IAsyncDisposable
+@inject IDbContextFactory<AppForSpiff.Data.AppForSpiffContext> DbFactory
+
+<PageTitle>Index</PageTitle>
+
+<h1>Index</h1>
+
+<p>
+    <a href="maindataemployees/create">Create New</a>
+</p>
+
+<QuickGrid Class="table" Items="context.MainDataEmployee">
+    <PropertyColumn Property="maindataemployee => maindataemployee.DealerCode" />
+    <PropertyColumn Property="maindataemployee => maindataemployee.FirstName" />
+    <PropertyColumn Property="maindataemployee => maindataemployee.LastName" />
+    <PropertyColumn Property="maindataemployee => maindataemployee.Role" />
+    <PropertyColumn Property="maindataemployee => maindataemployee.Spiff_Percent" />
+
+    <TemplateColumn Context="maindataemployee">
+        <a href="@($"maindataemployees/edit?edl_employee_id={maindataemployee.Edl_Employee_ID}")">Edit</a> |
+        <a href="@($"maindataemployees/details?edl_employee_id={maindataemployee.Edl_Employee_ID}")">Details</a> |
+        <a href="@($"maindataemployees/delete?edl_employee_id={maindataemployee.Edl_Employee_ID}")">Delete</a>
+    </TemplateColumn>
+</QuickGrid>
+
+@code {
+    private AppForSpiffContext context = default!;
+
+    protected override void OnInitialized()
+    {
+        context = DbFactory.CreateDbContext();
+    }
+
+    public async ValueTask DisposeAsync() => await context.DisposeAsync();
+}

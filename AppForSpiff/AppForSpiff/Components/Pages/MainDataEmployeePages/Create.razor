@@ -1,0 +1,64 @@
+﻿@page "/maindataemployees/create"
+@using Microsoft.EntityFrameworkCore
+@using AppForSpiff.Models
+@inject IDbContextFactory<AppForSpiff.Data.AppForSpiffContext> DbFactory
+@inject NavigationManager NavigationManager
+
+<PageTitle>Create</PageTitle>
+
+<h1>Create</h1>
+
+<h2>MainDataEmployee</h2>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <EditForm method="post" Model="MainDataEmployee" OnValidSubmit="AddMainDataEmployee" FormName="create" Enhance>
+            <DataAnnotationsValidator />
+            <ValidationSummary class="text-danger" />
+            <div class="mb-3">
+                <label for="dealercode" class="form-label">DealerCode:</label> 
+                <InputText id="dealercode" @bind-Value="MainDataEmployee.DealerCode" class="form-control" /> 
+                <ValidationMessage For="() => MainDataEmployee.DealerCode" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="firstname" class="form-label">FirstName:</label> 
+                <InputText id="firstname" @bind-Value="MainDataEmployee.FirstName" class="form-control" /> 
+                <ValidationMessage For="() => MainDataEmployee.FirstName" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="lastname" class="form-label">LastName:</label> 
+                <InputText id="lastname" @bind-Value="MainDataEmployee.LastName" class="form-control" /> 
+                <ValidationMessage For="() => MainDataEmployee.LastName" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="role" class="form-label">Role:</label> 
+                <InputText id="role" @bind-Value="MainDataEmployee.Role" class="form-control" /> 
+                <ValidationMessage For="() => MainDataEmployee.Role" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="spiff_percent" class="form-label">Spiff_Percent:</label> 
+                <InputNumber id="spiff_percent" @bind-Value="MainDataEmployee.Spiff_Percent" class="form-control" /> 
+                <ValidationMessage For="() => MainDataEmployee.Spiff_Percent" class="text-danger" /> 
+            </div>        
+            <button type="submit" class="btn btn-primary">Create</button>
+        </EditForm>
+    </div>
+</div>
+
+<div>
+    <a href="/maindataemployees">Back to List</a>
+</div>
+
+@code {
+    [SupplyParameterFromForm]
+    private MainDataEmployee MainDataEmployee { get; set; } = new();
+
+    // To protect from overposting attacks, see https://learn.microsoft.com/aspnet/core/blazor/forms/#mitigate-overposting-attacks.
+    private async Task AddMainDataEmployee()
+    {
+        using var context = DbFactory.CreateDbContext();
+        context.MainDataEmployee.Add(MainDataEmployee);
+        await context.SaveChangesAsync();
+        NavigationManager.NavigateTo("/maindataemployees");
+    }
+}

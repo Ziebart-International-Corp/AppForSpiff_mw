@@ -1,0 +1,44 @@
+﻿@page "/maindatapackages"
+@using Microsoft.EntityFrameworkCore
+@using Microsoft.AspNetCore.Components.QuickGrid
+@using AppForSpiff.Models
+@using AppForSpiff.Data
+@implements IAsyncDisposable
+@inject IDbContextFactory<AppForSpiff.Data.AppForSpiffContext> DbFactory
+
+<PageTitle>Index</PageTitle>
+
+<h1>Index</h1>
+
+<p>
+    <a href="maindatapackages/create">Create New</a>
+</p>
+
+<QuickGrid Class="table" Items="context.MainDataPackage">
+    <PropertyColumn Property="maindatapackage => maindatapackage.P_Service_ID" />
+    <PropertyColumn Property="maindatapackage => maindatapackage.DealerCode" />
+    <PropertyColumn Property="maindatapackage => maindatapackage.Title" />
+    <PropertyColumn Property="maindatapackage => maindatapackage.Channel_Number" />
+    <PropertyColumn Property="maindatapackage => maindatapackage.ServiceCode" />
+    <PropertyColumn Property="maindatapackage => maindatapackage.Five_Plus" />
+    <PropertyColumn Property="maindatapackage => maindatapackage.Under_Five" />
+    <PropertyColumn Property="maindatapackage => maindatapackage.Required_Channel" />
+    <PropertyColumn Property="maindatapackage => maindatapackage.Min_Sell_Price" />
+
+    <TemplateColumn Context="maindatapackage">
+        <a href="@($"maindatapackages/edit?packageitem_id={maindatapackage.PackageItem_ID}")">Edit</a> |
+        <a href="@($"maindatapackages/details?packageitem_id={maindatapackage.PackageItem_ID}")">Details</a> |
+        <a href="@($"maindatapackages/delete?packageitem_id={maindatapackage.PackageItem_ID}")">Delete</a>
+    </TemplateColumn>
+</QuickGrid>
+
+@code {
+    private AppForSpiffContext context = default!;
+
+    protected override void OnInitialized()
+    {
+        context = DbFactory.CreateDbContext();
+    }
+
+    public async ValueTask DisposeAsync() => await context.DisposeAsync();
+}

@@ -1,0 +1,109 @@
+﻿@page "/maindataemployees/edit"
+@using Microsoft.EntityFrameworkCore
+@using AppForSpiff.Models
+@inject IDbContextFactory<AppForSpiff.Data.AppForSpiffContext> DbFactory
+@inject NavigationManager NavigationManager
+
+<PageTitle>Edit</PageTitle>
+
+<h1>Edit</h1>
+
+<h2>MainDataEmployee</h2>
+<hr />
+@if (MainDataEmployee is null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <div class="row">
+        <div class="col-md-4">
+            <EditForm method="post" Model="MainDataEmployee" OnValidSubmit="UpdateMainDataEmployee" FormName="edit" Enhance>
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+                <input type="hidden" name="MainDataEmployee.Edl_Employee_ID" value="@MainDataEmployee.Edl_Employee_ID" />
+                <div class="mb-3">
+                    <label for="dealercode" class="form-label">DealerCode:</label>
+                    <InputText id="dealercode" @bind-Value="MainDataEmployee.DealerCode" class="form-control" />
+                    <ValidationMessage For="() => MainDataEmployee.DealerCode" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="firstname" class="form-label">FirstName:</label>
+                    <InputText id="firstname" @bind-Value="MainDataEmployee.FirstName" class="form-control" />
+                    <ValidationMessage For="() => MainDataEmployee.FirstName" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="lastname" class="form-label">LastName:</label>
+                    <InputText id="lastname" @bind-Value="MainDataEmployee.LastName" class="form-control" />
+                    <ValidationMessage For="() => MainDataEmployee.LastName" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="role" class="form-label">Role:</label>
+                    <InputText id="role" @bind-Value="MainDataEmployee.Role" class="form-control" />
+                    <ValidationMessage For="() => MainDataEmployee.Role" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="spiff_percent" class="form-label">Spiff_Percent:</label>
+                    <InputNumber id="spiff_percent" @bind-Value="MainDataEmployee.Spiff_Percent" class="form-control" />
+                    <ValidationMessage For="() => MainDataEmployee.Spiff_Percent" class="text-danger" />
+                </div>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </EditForm>
+        </div>
+    </div>
+}
+
+<div>
+    <a href="/maindataemployees">Back to List</a>
+</div>
+
+@code {
+    [SupplyParameterFromQuery]
+    private long Edl_Employee_ID { get; set; }
+
+    [SupplyParameterFromForm]
+    private MainDataEmployee? MainDataEmployee { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        using var context = DbFactory.CreateDbContext();
+        MainDataEmployee ??= await context.MainDataEmployee.FirstOrDefaultAsync(m => m.Edl_Employee_ID == Edl_Employee_ID);
+
+        if (MainDataEmployee is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+        }
+    }
+
+    // To protect from overposting attacks, enable the specific properties you want to bind to.
+    // For more information, see https://learn.microsoft.com/aspnet/core/blazor/forms/#mitigate-overposting-attacks.
+    private async Task UpdateMainDataEmployee()
+    {
+        using var context = DbFactory.CreateDbContext();
+        context.Attach(MainDataEmployee!).State = EntityState.Modified;
+
+        try
+        {
+            await context.SaveChangesAsync();
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            if (!MainDataEmployeeExists(MainDataEmployee!.Edl_Employee_ID))
+            {
+                NavigationManager.NavigateTo("notfound");
+            }
+            else
+            {
+                throw;
+            }
+        }
+
+        NavigationManager.NavigateTo("/maindataemployees");
+    }
+
+    private bool MainDataEmployeeExists(long edl_employee_id)
+    {
+        using var context = DbFactory.CreateDbContext();
+        return context.MainDataEmployee.Any(e => e.Edl_Employee_ID == edl_employee_id);
+    }
+}

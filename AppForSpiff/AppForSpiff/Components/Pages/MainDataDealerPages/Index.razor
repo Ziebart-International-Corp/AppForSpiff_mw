@@ -1,0 +1,88 @@
+﻿@page "/maindatadealers"
+@using Microsoft.EntityFrameworkCore
+@using Microsoft.AspNetCore.Components.QuickGrid
+@using AppForSpiff.Models
+@using AppForSpiff.Data
+@implements IAsyncDisposable
+@inject IDbContextFactory<AppForSpiff.Data.AppForSpiffContext> DbFactory
+
+@using System.Security.Claims
+@using AppForSpiff.Components.Services
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject DealerClaimService DealerClaimService
+
+<PageTitle>Index</PageTitle>
+
+<h1>Index</h1>
+
+@if (dealerInfo == null)
+{
+    <p>Loading...</p>
+}
+else if (!dealerInfo.Any())
+{
+    <p>No dealer information available for your Dealer Code.</p>
+}
+else 
+{
+<p>
+    <a href="maindatadealers/create">Create New</a>
+</p>
+    //mw Items="context.MainDataDealer">
+    <QuickGrid Class="table" Items="dealerInfo.AsQueryable()" TGridItem="MainDataDealer">
+    <PropertyColumn Property="maindatadealer => maindatadealer.DealerCode" />
+    <PropertyColumn Property="maindatadealer => maindatadealer.StoreHold_Chemical" />
+    <PropertyColumn Property="maindatadealer => maindatadealer.StoreHold_Accessories" />
+    <PropertyColumn Property="maindatadealer => maindatadealer.Store_Chemical_Percent" />
+    <PropertyColumn Property="maindatadealer => maindatadealer.Store_Accessories_Percent" />
+
+    <TemplateColumn Context="maindatadealer">
+        <a href="@($"maindatadealers/edit?dealer_id={maindatadealer.Dealer_ID}")">Edit</a> |
+        <a href="@($"maindatadealers/details?dealer_id={maindatadealer.Dealer_ID}")">Details</a> |
+        <a href="@($"maindatadealers/delete?dealer_id={maindatadealer.Dealer_ID}")">Delete</a>
+    </TemplateColumn>
+</QuickGrid>
+}
+
+@code {//mw
+    private string dealerCode;
+    private string searchTerm = "";
+    private List<MainDataDealer> dealerInfo = new(); // Adjusted to MainDataDealer type
+    private AppForSpiffContext context = default!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+
+        if (user.Identity.IsAuthenticated)
+        {
+            // Get user ID
+            var userId = user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            // Get dealer code from user claim
+            dealerCode = await DealerClaimService.GetDealerCodeByUserIdAsync(userId);
+
+            // Retrieve dealer information based on the dealer code
+            dealerInfo = await context.MainDataDealer
+                .Where(info => info.DealerCode == dealerCode)
+                .ToListAsync();
+        }
+    }
+    /*
+    private IEnumerable<MainDataDealer> filteredDealerInfo => 
+        dealerInfo
+            .Where(item => string.IsNullOrEmpty(searchTerm) || 
+                           item.DealerName.Contains(searchTerm, StringComparison.OrdinalIgnoreCase));
+    */
+ //mw
+
+    //private AppForSpiffContext context = default!;
+
+    protected override void OnInitialized()
+    {
+        context = DbFactory.CreateDbContext();
+    }
+
+    public async ValueTask DisposeAsync() => await context.DisposeAsync();
+}

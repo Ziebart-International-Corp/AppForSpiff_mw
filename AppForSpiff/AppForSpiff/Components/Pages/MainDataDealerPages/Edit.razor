@@ -1,0 +1,109 @@
+﻿@page "/maindatadealers/edit"
+@using Microsoft.EntityFrameworkCore
+@using AppForSpiff.Models
+@inject IDbContextFactory<AppForSpiff.Data.AppForSpiffContext> DbFactory
+@inject NavigationManager NavigationManager
+
+<PageTitle>Edit</PageTitle>
+
+<h1>Edit</h1>
+
+<h2>MainDataDealer</h2>
+<hr />
+@if (MainDataDealer is null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <div class="row">
+        <div class="col-md-4">
+            <EditForm method="post" Model="MainDataDealer" OnValidSubmit="UpdateMainDataDealer" FormName="edit" Enhance>
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+                <input type="hidden" name="MainDataDealer.Dealer_ID" value="@MainDataDealer.Dealer_ID" />
+                <div class="mb-3">
+                    <label for="dealercode" class="form-label">DealerCode:</label>
+                    <InputText id="dealercode" @bind-Value="MainDataDealer.DealerCode" class="form-control" />
+                    <ValidationMessage For="() => MainDataDealer.DealerCode" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="storehold_chemical" class="form-label">StoreHold_Chemical:</label>
+                    <InputNumber id="storehold_chemical" @bind-Value="MainDataDealer.StoreHold_Chemical" class="form-control" />
+                    <ValidationMessage For="() => MainDataDealer.StoreHold_Chemical" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="storehold_accessories" class="form-label">StoreHold_Accessories:</label>
+                    <InputNumber id="storehold_accessories" @bind-Value="MainDataDealer.StoreHold_Accessories" class="form-control" />
+                    <ValidationMessage For="() => MainDataDealer.StoreHold_Accessories" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="store_chemical_percent" class="form-label">Store_Chemical_Percent:</label>
+                    <InputNumber id="store_chemical_percent" @bind-Value="MainDataDealer.Store_Chemical_Percent" class="form-control" />
+                    <ValidationMessage For="() => MainDataDealer.Store_Chemical_Percent" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="store_accessories_percent" class="form-label">Store_Accessories_Percent:</label>
+                    <InputNumber id="store_accessories_percent" @bind-Value="MainDataDealer.Store_Accessories_Percent" class="form-control" />
+                    <ValidationMessage For="() => MainDataDealer.Store_Accessories_Percent" class="text-danger" />
+                </div>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </EditForm>
+        </div>
+    </div>
+}
+
+<div>
+    <a href="/maindatadealers">Back to List</a>
+</div>
+
+@code {
+    [SupplyParameterFromQuery]
+    private long Dealer_ID { get; set; }
+
+    [SupplyParameterFromForm]
+    private MainDataDealer? MainDataDealer { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        using var context = DbFactory.CreateDbContext();
+        MainDataDealer ??= await context.MainDataDealer.FirstOrDefaultAsync(m => m.Dealer_ID == Dealer_ID);
+
+        if (MainDataDealer is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+        }
+    }
+
+    // To protect from overposting attacks, enable the specific properties you want to bind to.
+    // For more information, see https://learn.microsoft.com/aspnet/core/blazor/forms/#mitigate-overposting-attacks.
+    private async Task UpdateMainDataDealer()
+    {
+        using var context = DbFactory.CreateDbContext();
+        context.Attach(MainDataDealer!).State = EntityState.Modified;
+
+        try
+        {
+            await context.SaveChangesAsync();
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            if (!MainDataDealerExists(MainDataDealer!.Dealer_ID))
+            {
+                NavigationManager.NavigateTo("notfound");
+            }
+            else
+            {
+                throw;
+            }
+        }
+
+        NavigationManager.NavigateTo("/maindatadealers");
+    }
+
+    private bool MainDataDealerExists(long dealer_id)
+    {
+        using var context = DbFactory.CreateDbContext();
+        return context.MainDataDealer.Any(e => e.Dealer_ID == dealer_id);
+    }
+}

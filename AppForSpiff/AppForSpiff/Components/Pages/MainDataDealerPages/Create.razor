@@ -1,0 +1,64 @@
+﻿@page "/maindatadealers/create"
+@using Microsoft.EntityFrameworkCore
+@using AppForSpiff.Models
+@inject IDbContextFactory<AppForSpiff.Data.AppForSpiffContext> DbFactory
+@inject NavigationManager NavigationManager
+
+<PageTitle>Create</PageTitle>
+
+<h1>Create</h1>
+
+<h2>MainDataDealer</h2>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <EditForm method="post" Model="MainDataDealer" OnValidSubmit="AddMainDataDealer" FormName="create" Enhance>
+            <DataAnnotationsValidator />
+            <ValidationSummary class="text-danger" />
+            <div class="mb-3">
+                <label for="dealercode" class="form-label">DealerCode:</label> 
+                <InputText id="dealercode" @bind-Value="MainDataDealer.DealerCode" class="form-control" /> 
+                <ValidationMessage For="() => MainDataDealer.DealerCode" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="storehold_chemical" class="form-label">StoreHold_Chemical:</label> 
+                <InputNumber id="storehold_chemical" @bind-Value="MainDataDealer.StoreHold_Chemical" class="form-control" /> 
+                <ValidationMessage For="() => MainDataDealer.StoreHold_Chemical" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="storehold_accessories" class="form-label">StoreHold_Accessories:</label> 
+                <InputNumber id="storehold_accessories" @bind-Value="MainDataDealer.StoreHold_Accessories" class="form-control" /> 
+                <ValidationMessage For="() => MainDataDealer.StoreHold_Accessories" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="store_chemical_percent" class="form-label">Store_Chemical_Percent:</label> 
+                <InputNumber id="store_chemical_percent" @bind-Value="MainDataDealer.Store_Chemical_Percent" class="form-control" /> 
+                <ValidationMessage For="() => MainDataDealer.Store_Chemical_Percent" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="store_accessories_percent" class="form-label">Store_Accessories_Percent:</label> 
+                <InputNumber id="store_accessories_percent" @bind-Value="MainDataDealer.Store_Accessories_Percent" class="form-control" /> 
+                <ValidationMessage For="() => MainDataDealer.Store_Accessories_Percent" class="text-danger" /> 
+            </div>        
+            <button type="submit" class="btn btn-primary">Create</button>
+        </EditForm>
+    </div>
+</div>
+
+<div>
+    <a href="/maindatadealers">Back to List</a>
+</div>
+
+@code {
+    [SupplyParameterFromForm]
+    private MainDataDealer MainDataDealer { get; set; } = new();
+
+    // To protect from overposting attacks, see https://learn.microsoft.com/aspnet/core/blazor/forms/#mitigate-overposting-attacks.
+    private async Task AddMainDataDealer()
+    {
+        using var context = DbFactory.CreateDbContext();
+        context.MainDataDealer.Add(MainDataDealer);
+        await context.SaveChangesAsync();
+        NavigationManager.NavigateTo("/maindatadealers");
+    }
+}

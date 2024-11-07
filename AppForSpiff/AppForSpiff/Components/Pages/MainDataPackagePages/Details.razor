@@ -1,0 +1,62 @@
+﻿@page "/maindatapackages/details"
+@using Microsoft.EntityFrameworkCore
+@using AppForSpiff.Models
+@inject IDbContextFactory<AppForSpiff.Data.AppForSpiffContext> DbFactory
+@inject NavigationManager NavigationManager
+
+<PageTitle>Details</PageTitle>
+
+<h1>Details</h1>
+
+<div>
+    <h2>MainDataPackage</h2>
+    <hr />
+    @if (maindatapackage is null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else {
+        <dl class="row">
+            <dt class="col-sm-2">P_Service_ID</dt>
+            <dd class="col-sm-10">@maindatapackage.P_Service_ID</dd>
+            <dt class="col-sm-2">DealerCode</dt>
+            <dd class="col-sm-10">@maindatapackage.DealerCode</dd>
+            <dt class="col-sm-2">Title</dt>
+            <dd class="col-sm-10">@maindatapackage.Title</dd>
+            <dt class="col-sm-2">Channel_Number</dt>
+            <dd class="col-sm-10">@maindatapackage.Channel_Number</dd>
+            <dt class="col-sm-2">ServiceCode</dt>
+            <dd class="col-sm-10">@maindatapackage.ServiceCode</dd>
+            <dt class="col-sm-2">Five_Plus</dt>
+            <dd class="col-sm-10">@maindatapackage.Five_Plus</dd>
+            <dt class="col-sm-2">Under_Five</dt>
+            <dd class="col-sm-10">@maindatapackage.Under_Five</dd>
+            <dt class="col-sm-2">Required_Channel</dt>
+            <dd class="col-sm-10">@maindatapackage.Required_Channel</dd>
+            <dt class="col-sm-2">Min_Sell_Price</dt>
+            <dd class="col-sm-10">@maindatapackage.Min_Sell_Price</dd>
+        </dl>
+        <div>
+            <a href="@($"/maindatapackages/edit?packageitem_id={maindatapackage.PackageItem_ID}")">Edit</a> |
+            <a href="@($"/maindatapackages")">Back to List</a>
+        </div>
+    }
+</div>
+
+@code {
+    private MainDataPackage? maindatapackage;
+
+    [SupplyParameterFromQuery]
+    private long PackageItem_ID { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        using var context = DbFactory.CreateDbContext();
+        maindatapackage = await context.MainDataPackage.FirstOrDefaultAsync(m => m.PackageItem_ID == PackageItem_ID);
+
+        if (maindatapackage is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+        }
+    }
+}

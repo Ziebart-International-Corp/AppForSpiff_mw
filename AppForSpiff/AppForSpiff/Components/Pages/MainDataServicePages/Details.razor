@@ -1,0 +1,56 @@
+﻿@page "/maindataservices/details"
+@using Microsoft.EntityFrameworkCore
+@using AppForSpiff.Models
+@inject IDbContextFactory<AppForSpiff.Data.AppForSpiffContext> DbFactory
+@inject NavigationManager NavigationManager
+
+<PageTitle>Details</PageTitle>
+
+<h1>Details</h1>
+
+<div>
+    <h2>MainDataService</h2>
+    <hr />
+    @if (maindataservice is null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else {
+        <dl class="row">
+            <dt class="col-sm-2">DealerCode</dt>
+            <dd class="col-sm-10">@maindataservice.DealerCode</dd>
+            <dt class="col-sm-2">ServiceCode</dt>
+            <dd class="col-sm-10">@maindataservice.ServiceCode</dd>
+            <dt class="col-sm-2">ServiceName</dt>
+            <dd class="col-sm-10">@maindataservice.ServiceName</dd>
+            <dt class="col-sm-2">Description</dt>
+            <dd class="col-sm-10">@maindataservice.Description</dd>
+            <dt class="col-sm-2">Required_Channel</dt>
+            <dd class="col-sm-10">@maindataservice.Required_Channel</dd>
+            <dt class="col-sm-2">Min_Sell_Price</dt>
+            <dd class="col-sm-10">@maindataservice.Min_Sell_Price</dd>
+        </dl>
+        <div>
+            <a href="@($"/maindataservices/edit?service_id={maindataservice.Service_ID}")">Edit</a> |
+            <a href="@($"/maindataservices")">Back to List</a>
+        </div>
+    }
+</div>
+
+@code {
+    private MainDataService? maindataservice;
+
+    [SupplyParameterFromQuery]
+    private long Service_ID { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        using var context = DbFactory.CreateDbContext();
+        maindataservice = await context.MainDataService.FirstOrDefaultAsync(m => m.Service_ID == Service_ID);
+
+        if (maindataservice is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+        }
+    }
+}

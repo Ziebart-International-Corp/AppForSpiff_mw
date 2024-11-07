@@ -1,0 +1,54 @@
+﻿@page "/maindatadealers/details"
+@using Microsoft.EntityFrameworkCore
+@using AppForSpiff.Models
+@inject IDbContextFactory<AppForSpiff.Data.AppForSpiffContext> DbFactory
+@inject NavigationManager NavigationManager
+
+<PageTitle>Details</PageTitle>
+
+<h1>Details</h1>
+
+<div>
+    <h2>MainDataDealer</h2>
+    <hr />
+    @if (maindatadealer is null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else {
+        <dl class="row">
+            <dt class="col-sm-2">DealerCode</dt>
+            <dd class="col-sm-10">@maindatadealer.DealerCode</dd>
+            <dt class="col-sm-2">StoreHold_Chemical</dt>
+            <dd class="col-sm-10">@maindatadealer.StoreHold_Chemical</dd>
+            <dt class="col-sm-2">StoreHold_Accessories</dt>
+            <dd class="col-sm-10">@maindatadealer.StoreHold_Accessories</dd>
+            <dt class="col-sm-2">Store_Chemical_Percent</dt>
+            <dd class="col-sm-10">@maindatadealer.Store_Chemical_Percent</dd>
+            <dt class="col-sm-2">Store_Accessories_Percent</dt>
+            <dd class="col-sm-10">@maindatadealer.Store_Accessories_Percent</dd>
+        </dl>
+        <div>
+            <a href="@($"/maindatadealers/edit?dealer_id={maindatadealer.Dealer_ID}")">Edit</a> |
+            <a href="@($"/maindatadealers")">Back to List</a>
+        </div>
+    }
+</div>
+
+@code {
+    private MainDataDealer? maindatadealer;
+
+    [SupplyParameterFromQuery]
+    private long Dealer_ID { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        using var context = DbFactory.CreateDbContext();
+        maindatadealer = await context.MainDataDealer.FirstOrDefaultAsync(m => m.Dealer_ID == Dealer_ID);
+
+        if (maindatadealer is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+        }
+    }
+}

@@ -1,0 +1,69 @@
+﻿@page "/maindataservices/create"
+@using Microsoft.EntityFrameworkCore
+@using AppForSpiff.Models
+@inject IDbContextFactory<AppForSpiff.Data.AppForSpiffContext> DbFactory
+@inject NavigationManager NavigationManager
+
+<PageTitle>Create</PageTitle>
+
+<h1>Create</h1>
+
+<h2>MainDataService</h2>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <EditForm method="post" Model="MainDataService" OnValidSubmit="AddMainDataService" FormName="create" Enhance>
+            <DataAnnotationsValidator />
+            <ValidationSummary class="text-danger" />
+            <div class="mb-3">
+                <label for="dealercode" class="form-label">DealerCode:</label> 
+                <InputText id="dealercode" @bind-Value="MainDataService.DealerCode" class="form-control" /> 
+                <ValidationMessage For="() => MainDataService.DealerCode" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="servicecode" class="form-label">ServiceCode:</label> 
+                <InputText id="servicecode" @bind-Value="MainDataService.ServiceCode" class="form-control" /> 
+                <ValidationMessage For="() => MainDataService.ServiceCode" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="servicename" class="form-label">ServiceName:</label> 
+                <InputText id="servicename" @bind-Value="MainDataService.ServiceName" class="form-control" /> 
+                <ValidationMessage For="() => MainDataService.ServiceName" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="description" class="form-label">Description:</label> 
+                <InputText id="description" @bind-Value="MainDataService.Description" class="form-control" /> 
+                <ValidationMessage For="() => MainDataService.Description" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="required_channel" class="form-label">Required_Channel:</label> 
+                <InputNumber id="required_channel" @bind-Value="MainDataService.Required_Channel" class="form-control" /> 
+                <ValidationMessage For="() => MainDataService.Required_Channel" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="min_sell_price" class="form-label">Min_Sell_Price:</label> 
+                <InputNumber id="min_sell_price" @bind-Value="MainDataService.Min_Sell_Price" class="form-control" /> 
+                <ValidationMessage For="() => MainDataService.Min_Sell_Price" class="text-danger" /> 
+            </div>        
+            <button type="submit" class="btn btn-primary">Create</button>
+        </EditForm>
+    </div>
+</div>
+
+<div>
+    <a href="/maindataservices">Back to List</a>
+</div>
+
+@code {
+    [SupplyParameterFromForm]
+    private MainDataService MainDataService { get; set; } = new();
+
+    // To protect from overposting attacks, see https://learn.microsoft.com/aspnet/core/blazor/forms/#mitigate-overposting-attacks.
+    private async Task AddMainDataService()
+    {
+        using var context = DbFactory.CreateDbContext();
+        context.MainDataService.Add(MainDataService);
+        await context.SaveChangesAsync();
+        NavigationManager.NavigateTo("/maindataservices");
+    }
+}
