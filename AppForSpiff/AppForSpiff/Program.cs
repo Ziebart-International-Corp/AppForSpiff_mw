@@ -60,6 +60,13 @@ builder.Services.AddIdentityCore<ApplicationUser>(options => options.SignIn.Requ
 
 builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSender>();
 
+builder.Services.AddScoped<CookieEvents>();
+
+builder.Services.ConfigureApplicationCookie(opt =>
+{
+    opt.EventsType = typeof(CookieEvents);
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

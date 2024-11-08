@@ -38,24 +38,14 @@ else
                     <ValidationMessage For="() => MainData.SalesmanEmployee_ID" class="text-danger" />
                 </div>
                 <div class="mb-3">
-                    <label for="cashoutemployee_id" class="form-label">CashoutEmployee_ID:</label>
-                    <InputNumber id="cashoutemployee_id" @bind-Value="MainData.CashoutEmployee_ID" class="form-control" />
-                    <ValidationMessage For="() => MainData.CashoutEmployee_ID" class="text-danger" />
-                </div>
-                <div class="mb-3">
-                    <label for="inspectedbyemployee_id" class="form-label">InspectedByEmployee_ID:</label>
-                    <InputNumber id="inspectedbyemployee_id" @bind-Value="MainData.InspectedByEmployee_ID" class="form-control" />
-                    <ValidationMessage For="() => MainData.InspectedByEmployee_ID" class="text-danger" />
-                </div>
-                <div class="mb-3">
                     <label for="channel_number" class="form-label">Channel_Number:</label>
                     <InputNumber id="channel_number" @bind-Value="MainData.Channel_Number" class="form-control" />
                     <ValidationMessage For="() => MainData.Channel_Number" class="text-danger" />
                 </div>
                 <div class="mb-3">
-                    <label for="invoicecompleteddatetime_loc" class="form-label">InvoiceCompletedDateTime_Loc:</label>
-                    <InputDate id="invoicecompleteddatetime_loc" @bind-Value="MainData.InvoiceCompletedDateTime_Loc" class="form-control" />
-                    <ValidationMessage For="() => MainData.InvoiceCompletedDateTime_Loc" class="text-danger" />
+                    <label for="invoicedate" class="form-label">InvoiceDate:</label>
+                    <InputDate id="invoicedate" @bind-Value="MainData.InvoiceDate" class="form-control" />
+                    <ValidationMessage For="() => MainData.InvoiceDate" class="text-danger" />
                 </div>
                 <div class="mb-3">
                     <label for="invoicenumber" class="form-label">InvoiceNumber:</label>
@@ -63,54 +53,9 @@ else
                     <ValidationMessage For="() => MainData.InvoiceNumber" class="text-danger" />
                 </div>
                 <div class="mb-3">
-                    <label for="sumtotalinvoicediscountapplied_stage04" class="form-label">SumTotalInvoiceDiscountApplied_Stage04:</label>
-                    <InputNumber id="sumtotalinvoicediscountapplied_stage04" @bind-Value="MainData.SumTotalInvoiceDiscountApplied_Stage04" class="form-control" />
-                    <ValidationMessage For="() => MainData.SumTotalInvoiceDiscountApplied_Stage04" class="text-danger" />
-                </div>
-                <div class="mb-3">
-                    <label for="totalpackagelinecoupon" class="form-label">TotalPackageLineCoupon:</label>
-                    <InputNumber id="totalpackagelinecoupon" @bind-Value="MainData.TotalPackageLineCoupon" class="form-control" />
-                    <ValidationMessage For="() => MainData.TotalPackageLineCoupon" class="text-danger" />
-                </div>
-                <div class="mb-3">
-                    <label for="totalpackagelinediscount" class="form-label">TotalPackageLineDiscount:</label>
-                    <InputNumber id="totalpackagelinediscount" @bind-Value="MainData.TotalPackageLineDiscount" class="form-control" />
-                    <ValidationMessage For="() => MainData.TotalPackageLineDiscount" class="text-danger" />
-                </div>
-                <div class="mb-3">
-                    <label for="totalinvoicecoupon" class="form-label">TotalInvoiceCoupon:</label>
-                    <InputNumber id="totalinvoicecoupon" @bind-Value="MainData.TotalInvoiceCoupon" class="form-control" />
-                    <ValidationMessage For="() => MainData.TotalInvoiceCoupon" class="text-danger" />
-                </div>
-                <div class="mb-3">
-                    <label for="totalinvoicediscount" class="form-label">TotalInvoiceDiscount:</label>
-                    <InputNumber id="totalinvoicediscount" @bind-Value="MainData.TotalInvoiceDiscount" class="form-control" />
-                    <ValidationMessage For="() => MainData.TotalInvoiceDiscount" class="text-danger" />
-                </div>
-                <div class="mb-3">
                     <label for="invoicetotal" class="form-label">InvoiceTotal:</label>
                     <InputNumber id="invoicetotal" @bind-Value="MainData.InvoiceTotal" class="form-control" />
                     <ValidationMessage For="() => MainData.InvoiceTotal" class="text-danger" />
-                </div>
-                <div class="mb-3">
-                    <label for="totalamountpaid" class="form-label">TotalAmountPaid:</label>
-                    <InputNumber id="totalamountpaid" @bind-Value="MainData.TotalAmountPaid" class="form-control" />
-                    <ValidationMessage For="() => MainData.TotalAmountPaid" class="text-danger" />
-                </div>
-                <div class="mb-3">
-                    <label for="totalservicelines" class="form-label">TotalServiceLines:</label>
-                    <InputNumber id="totalservicelines" @bind-Value="MainData.TotalServiceLines" class="form-control" />
-                    <ValidationMessage For="() => MainData.TotalServiceLines" class="text-danger" />
-                </div>
-                <div class="mb-3">
-                    <label for="totalpartlines" class="form-label">TotalPartLines:</label>
-                    <InputNumber id="totalpartlines" @bind-Value="MainData.TotalPartLines" class="form-control" />
-                    <ValidationMessage For="() => MainData.TotalPartLines" class="text-danger" />
-                </div>
-                <div class="mb-3">
-                    <label for="employee_id" class="form-label">Employee_ID:</label>
-                    <InputNumber id="employee_id" @bind-Value="MainData.Employee_ID" class="form-control" />
-                    <ValidationMessage For="() => MainData.Employee_ID" class="text-danger" />
                 </div>
                 <div class="mb-3">
                     <label for="firstname" class="form-label">FirstName:</label>
@@ -123,16 +68,6 @@ else
                     <ValidationMessage For="() => MainData.LastName" class="text-danger" />
                 </div>
                 <div class="mb-3">
-                    <label for="role" class="form-label">Role:</label>
-                    <InputText id="role" @bind-Value="MainData.Role" class="form-control" />
-                    <ValidationMessage For="() => MainData.Role" class="text-danger" />
-                </div>
-                <div class="mb-3">
-                    <label for="terminationdate_loc" class="form-label">TerminationDate_Loc:</label>
-                    <InputDate id="terminationdate_loc" @bind-Value="MainData.TerminationDate_Loc" class="form-control" />
-                    <ValidationMessage For="() => MainData.TerminationDate_Loc" class="text-danger" />
-                </div>
-                <div class="mb-3">
                     <label for="packageitem_id" class="form-label">PackageItem_ID:</label>
                     <InputNumber id="packageitem_id" @bind-Value="MainData.PackageItem_ID" class="form-control" />
                     <ValidationMessage For="() => MainData.PackageItem_ID" class="text-danger" />
@@ -143,29 +78,9 @@ else
                     <ValidationMessage For="() => MainData.Svs_Service_ID" class="text-danger" />
                 </div>
                 <div class="mb-3">
-                    <label for="svs_glaccountlist_id" class="form-label">Svs_GLAccountList_ID:</label>
-                    <InputNumber id="svs_glaccountlist_id" @bind-Value="MainData.Svs_GLAccountList_ID" class="form-control" />
-                    <ValidationMessage For="() => MainData.Svs_GLAccountList_ID" class="text-danger" />
-                </div>
-                <div class="mb-3">
-                    <label for="svs_invoiceheader_id" class="form-label">Svs_InvoiceHeader_ID:</label>
-                    <InputNumber id="svs_invoiceheader_id" @bind-Value="MainData.Svs_InvoiceHeader_ID" class="form-control" />
-                    <ValidationMessage For="() => MainData.Svs_InvoiceHeader_ID" class="text-danger" />
-                </div>
-                <div class="mb-3">
-                    <label for="linenumber" class="form-label">LineNumber:</label>
-                    <InputNumber id="linenumber" @bind-Value="MainData.LineNumber" class="form-control" />
-                    <ValidationMessage For="() => MainData.LineNumber" class="text-danger" />
-                </div>
-                <div class="mb-3">
                     <label for="unitprice" class="form-label">UnitPrice:</label>
                     <InputNumber id="unitprice" @bind-Value="MainData.UnitPrice" class="form-control" />
                     <ValidationMessage For="() => MainData.UnitPrice" class="text-danger" />
-                </div>
-                <div class="mb-3">
-                    <label for="unitprice_forassociatecustomeronly" class="form-label">UnitPrice_ForAssociateCustomerOnly:</label>
-                    <InputNumber id="unitprice_forassociatecustomeronly" @bind-Value="MainData.UnitPrice_ForAssociateCustomerOnly" class="form-control" />
-                    <ValidationMessage For="() => MainData.UnitPrice_ForAssociateCustomerOnly" class="text-danger" />
                 </div>
                 <div class="mb-3">
                     <label for="quantity" class="form-label">Quantity:</label>
@@ -173,74 +88,9 @@ else
                     <ValidationMessage For="() => MainData.Quantity" class="text-danger" />
                 </div>
                 <div class="mb-3">
-                    <label for="grosstotal" class="form-label">GrossTotal:</label>
-                    <InputNumber id="grosstotal" @bind-Value="MainData.GrossTotal" class="form-control" />
-                    <ValidationMessage For="() => MainData.GrossTotal" class="text-danger" />
-                </div>
-                <div class="mb-3">
-                    <label for="couponamount_lineitemlevel" class="form-label">CouponAmount_LineItemLevel:</label>
-                    <InputNumber id="couponamount_lineitemlevel" @bind-Value="MainData.CouponAmount_LineItemLevel" class="form-control" />
-                    <ValidationMessage For="() => MainData.CouponAmount_LineItemLevel" class="text-danger" />
-                </div>
-                <div class="mb-3">
-                    <label for="couponpercent_lineitemlevel" class="form-label">CouponPercent_LineItemLevel:</label>
-                    <InputNumber id="couponpercent_lineitemlevel" @bind-Value="MainData.CouponPercent_LineItemLevel" class="form-control" />
-                    <ValidationMessage For="() => MainData.CouponPercent_LineItemLevel" class="text-danger" />
-                </div>
-                <div class="mb-3">
-                    <label for="totallinecouponapplied_stage01" class="form-label">TotalLineCouponApplied_Stage01:</label>
-                    <InputNumber id="totallinecouponapplied_stage01" @bind-Value="MainData.TotalLineCouponApplied_Stage01" class="form-control" />
-                    <ValidationMessage For="() => MainData.TotalLineCouponApplied_Stage01" class="text-danger" />
-                </div>
-                <div class="mb-3">
-                    <label for="couponamount_invoicelevel" class="form-label">CouponAmount_InvoiceLevel:</label>
-                    <InputNumber id="couponamount_invoicelevel" @bind-Value="MainData.CouponAmount_InvoiceLevel" class="form-control" />
-                    <ValidationMessage For="() => MainData.CouponAmount_InvoiceLevel" class="text-danger" />
-                </div>
-                <div class="mb-3">
-                    <label for="couponpercent_invoicelevel" class="form-label">CouponPercent_InvoiceLevel:</label>
-                    <InputNumber id="couponpercent_invoicelevel" @bind-Value="MainData.CouponPercent_InvoiceLevel" class="form-control" />
-                    <ValidationMessage For="() => MainData.CouponPercent_InvoiceLevel" class="text-danger" />
-                </div>
-                <div class="mb-3">
-                    <label for="totalinvoicecouponapplied_stage02" class="form-label">TotalInvoiceCouponApplied_Stage02:</label>
-                    <InputNumber id="totalinvoicecouponapplied_stage02" @bind-Value="MainData.TotalInvoiceCouponApplied_Stage02" class="form-control" />
-                    <ValidationMessage For="() => MainData.TotalInvoiceCouponApplied_Stage02" class="text-danger" />
-                </div>
-                <div class="mb-3">
-                    <label for="discountamount_lineitemlevel" class="form-label">DiscountAmount_LineItemLevel:</label>
-                    <InputNumber id="discountamount_lineitemlevel" @bind-Value="MainData.DiscountAmount_LineItemLevel" class="form-control" />
-                    <ValidationMessage For="() => MainData.DiscountAmount_LineItemLevel" class="text-danger" />
-                </div>
-                <div class="mb-3">
-                    <label for="discountpercent_lineitemlevel" class="form-label">DiscountPercent_LineItemLevel:</label>
-                    <InputNumber id="discountpercent_lineitemlevel" @bind-Value="MainData.DiscountPercent_LineItemLevel" class="form-control" />
-                    <ValidationMessage For="() => MainData.DiscountPercent_LineItemLevel" class="text-danger" />
-                </div>
-                <div class="mb-3">
-                    <label for="totallinediscountapplied_stage03" class="form-label">TotalLineDiscountApplied_Stage03:</label>
-                    <InputNumber id="totallinediscountapplied_stage03" @bind-Value="MainData.TotalLineDiscountApplied_Stage03" class="form-control" />
-                    <ValidationMessage For="() => MainData.TotalLineDiscountApplied_Stage03" class="text-danger" />
-                </div>
-                <div class="mb-3">
-                    <label for="discountamount_invoicelevel" class="form-label">DiscountAmount_InvoiceLevel:</label>
-                    <InputNumber id="discountamount_invoicelevel" @bind-Value="MainData.DiscountAmount_InvoiceLevel" class="form-control" />
-                    <ValidationMessage For="() => MainData.DiscountAmount_InvoiceLevel" class="text-danger" />
-                </div>
-                <div class="mb-3">
-                    <label for="discountpercent_invoicelevel" class="form-label">DiscountPercent_InvoiceLevel:</label>
-                    <InputNumber id="discountpercent_invoicelevel" @bind-Value="MainData.DiscountPercent_InvoiceLevel" class="form-control" />
-                    <ValidationMessage For="() => MainData.DiscountPercent_InvoiceLevel" class="text-danger" />
-                </div>
-                <div class="mb-3">
                     <label for="totalinvoicediscountapplied_stage04" class="form-label">TotalInvoiceDiscountApplied_Stage04:</label>
                     <InputNumber id="totalinvoicediscountapplied_stage04" @bind-Value="MainData.TotalInvoiceDiscountApplied_Stage04" class="form-control" />
                     <ValidationMessage For="() => MainData.TotalInvoiceDiscountApplied_Stage04" class="text-danger" />
-                </div>
-                <div class="mb-3">
-                    <label for="salespersonemployee_id" class="form-label">SalespersonEmployee_ID:</label>
-                    <InputNumber id="salespersonemployee_id" @bind-Value="MainData.SalespersonEmployee_ID" class="form-control" />
-                    <ValidationMessage For="() => MainData.SalespersonEmployee_ID" class="text-danger" />
                 </div>
                 <div class="mb-3">
                     <label for="servicecode" class="form-label">ServiceCode:</label>
