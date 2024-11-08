@@ -10,7 +10,7 @@ using System.ComponentModel.DataAnnotations;
 public class MainData
 {
     [Key]
-    public long? InvoiceHeader_Service_ID { get; set; }
+    public long InvoiceHeader_Service_ID { get; set; }
     public long Inv_InvoiceHeader_ID { get; set; }
     public string? DealerCode { get; set; }
     public long? SalesmanEmployee_ID { get; set; }
@@ -26,8 +26,8 @@ public class MainData
     public decimal TotalInvoiceDiscount { get; set; }
     public decimal InvoiceTotal { get; set; }
     public decimal TotalAmountPaid { get; set; }
-    public int TotalServiceLines { get; set; }
-    public int TotalPartLines { get; set; }
+    public int? TotalServiceLines { get; set; }
+    public int? TotalPartLines { get; set; }
     public long? Employee_ID { get; set; }
     public string? FirstName { get; set; }
     public string? LastName { get; set; }
@@ -37,10 +37,10 @@ public class MainData
     public long? Svs_Service_ID { get; set; }
     public long? Svs_GLAccountList_ID { get; set; }
     public long? Svs_InvoiceHeader_ID { get; set; }
-    public int LineNumber { get; set; }
+    public int? LineNumber { get; set; }
     public decimal UnitPrice { get; set; }
-    public decimal UnitPrice_ForAssociateCustomerOnly { get; set; }
-    public int Quantity { get; set; }
+    public decimal? UnitPrice_ForAssociateCustomerOnly { get; set; }
+    public decimal Quantity { get; set; }
     public decimal GrossTotal { get; set; }
     public decimal CouponAmount_LineItemLevel { get; set; }
     public decimal CouponPercent_LineItemLevel { get; set; }

@@ -269,7 +269,7 @@ else
 
 @code {
     [SupplyParameterFromQuery]
-    private long? InvoiceHeader_Service_ID { get; set; }
+    private long InvoiceHeader_Service_ID { get; set; }
 
     [SupplyParameterFromForm]
     private MainData? MainData { get; set; }
@@ -311,7 +311,7 @@ else
         NavigationManager.NavigateTo("/maindata");
     }
 
-    private bool MainDataExists(long? invoiceheader_service_id)
+    private bool MainDataExists(long invoiceheader_service_id)
     {
         using var context = DbFactory.CreateDbContext();
         return context.MainData.Any(e => e.InvoiceHeader_Service_ID == invoiceheader_service_id);
