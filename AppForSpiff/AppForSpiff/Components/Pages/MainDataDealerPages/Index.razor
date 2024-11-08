@@ -11,6 +11,10 @@
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject DealerClaimService DealerClaimService
 
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize(Roles = "Admin")]
+
+
 <PageTitle>Index</PageTitle>
 
 <h1>Index</h1>
