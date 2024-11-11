@@ -16,7 +16,8 @@ namespace AppForSpiff.Models
         public string? ServiceName { get; set; }
         public string? Description { get; set; }
         public int? Required_Channel { get; set; }
-        public decimal? Min_Sell_Price { get; set; }
+        public decimal? Min_Sell_Price_Car { get; set; }
+        public decimal? Min_Sell_Price_Truck { get; set; }
         public decimal? ComAmount { get; set; }
 
     }

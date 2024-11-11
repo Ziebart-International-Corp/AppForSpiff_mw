@@ -19,13 +19,14 @@
 </p>
 
 <QuickGrid Class="table" Items="context.MainDataService">
-    <PropertyColumn Property="maindataservice => maindataservice.DealerCode"  Sortable="true" />
-    <PropertyColumn Property="maindataservice => maindataservice.ServiceCode"  Sortable="true" />
-    <PropertyColumn Property="maindataservice => maindataservice.ServiceName"  Sortable="true" />
-    <PropertyColumn Property="maindataservice => maindataservice.Description"  Sortable="true" />
-    <PropertyColumn Property="maindataservice => maindataservice.Required_Channel"  Sortable="true" />
-    <PropertyColumn Property="maindataservice => maindataservice.Min_Sell_Price"  Sortable="true" />
-    <PropertyColumn Property="maindataservice => maindataservice.ComAmount"  Sortable="true" />
+    <PropertyColumn Property="maindataservice => maindataservice.DealerCode" />
+    <PropertyColumn Property="maindataservice => maindataservice.ServiceCode" />
+    <PropertyColumn Property="maindataservice => maindataservice.ServiceName" />
+    <PropertyColumn Property="maindataservice => maindataservice.Description" />
+    <PropertyColumn Property="maindataservice => maindataservice.Required_Channel" />
+    <PropertyColumn Property="maindataservice => maindataservice.Min_Sell_Price_Car" />
+    <PropertyColumn Property="maindataservice => maindataservice.Min_Sell_Price_Truck" />
+    <PropertyColumn Property="maindataservice => maindataservice.ComAmount" />
 
     <TemplateColumn Context="maindataservice">
         <a href="@($"maindataservices/edit?service_id={maindataservice.Service_ID}")">Edit</a> |
