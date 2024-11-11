@@ -15,5 +15,6 @@ namespace AppForSpiff.Models
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
         public double? Spiff_Percent { get; set; }
+        public string? Active { get; set; }
     }
 }

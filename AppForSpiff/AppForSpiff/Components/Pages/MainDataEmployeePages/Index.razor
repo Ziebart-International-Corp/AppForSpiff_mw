@@ -6,8 +6,10 @@
 @implements IAsyncDisposable
 @inject IDbContextFactory<AppForSpiff.Data.AppForSpiffContext> DbFactory
 
+
 @using Microsoft.AspNetCore.Authorization
 @attribute [Authorize(Roles = "Admin")]
+
 
 <PageTitle>Index</PageTitle>
 
@@ -22,6 +24,7 @@
     <PropertyColumn Property="maindataemployee => maindataemployee.FirstName" />
     <PropertyColumn Property="maindataemployee => maindataemployee.LastName" />
     <PropertyColumn Property="maindataemployee => maindataemployee.Spiff_Percent" />
+    <PropertyColumn Property="maindataemployee => maindataemployee.Active" />
 
     <TemplateColumn Context="maindataemployee">
         <a href="@($"maindataemployees/edit?edl_employee_id={maindataemployee.Edl_Employee_ID}")">Edit</a> |

@@ -42,6 +42,11 @@ else
                     <InputNumber id="spiff_percent" @bind-Value="MainDataEmployee.Spiff_Percent" class="form-control" />
                     <ValidationMessage For="() => MainDataEmployee.Spiff_Percent" class="text-danger" />
                 </div>
+                <div class="mb-3">
+                    <label for="active" class="form-label">Active:</label>
+                    <InputText id="active" @bind-Value="MainDataEmployee.Active" class="form-control" />
+                    <ValidationMessage For="() => MainDataEmployee.Active" class="text-danger" />
+                </div>
                 <button type="submit" class="btn btn-primary">Save</button>
             </EditForm>
         </div>
