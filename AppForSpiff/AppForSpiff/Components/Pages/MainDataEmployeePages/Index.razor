@@ -5,7 +5,7 @@
 @using AppForSpiff.Data
 @implements IAsyncDisposable
 @inject IDbContextFactory<AppForSpiff.Data.AppForSpiffContext> DbFactory
-
+@rendermode InteractiveServer
 
 @using Microsoft.AspNetCore.Authorization
 @attribute [Authorize(Roles = "Admin")]
@@ -20,11 +20,11 @@
 </p>
 
 <QuickGrid Class="table" Items="context.MainDataEmployee">
-    <PropertyColumn Property="maindataemployee => maindataemployee.DealerCode" />
-    <PropertyColumn Property="maindataemployee => maindataemployee.FirstName" />
-    <PropertyColumn Property="maindataemployee => maindataemployee.LastName" />
-    <PropertyColumn Property="maindataemployee => maindataemployee.Spiff_Percent" />
-    <PropertyColumn Property="maindataemployee => maindataemployee.Active" />
+    <PropertyColumn Property="maindataemployee => maindataemployee.DealerCode"  Sortable="true" />
+    <PropertyColumn Property="maindataemployee => maindataemployee.FirstName"  Sortable="true" />
+    <PropertyColumn Property="maindataemployee => maindataemployee.LastName"  Sortable="true" />
+    <PropertyColumn Property="maindataemployee => maindataemployee.Spiff_Percent"  Sortable="true" />
+    <PropertyColumn Property="maindataemployee => maindataemployee.Active"  Sortable="true" />
 
     <TemplateColumn Context="maindataemployee">
         <a href="@($"maindataemployees/edit?edl_employee_id={maindataemployee.Edl_Employee_ID}")">Edit</a> |

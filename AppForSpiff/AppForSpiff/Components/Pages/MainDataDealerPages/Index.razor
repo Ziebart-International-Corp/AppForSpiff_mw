@@ -10,6 +10,7 @@
 @using AppForSpiff.Components.Services
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject DealerClaimService DealerClaimService
+@rendermode InteractiveServer
 
 @using Microsoft.AspNetCore.Authorization
 @attribute [Authorize(Roles = "Admin")]
@@ -33,11 +34,11 @@ else
         <a href="maindatadealers/create">Create New</a>
     </p>
     <QuickGrid Class="table" Items="dealerInfo.AsQueryable()" TGridItem="MainDataDealer">
-        <PropertyColumn Property="maindatadealer => maindatadealer.DealerCode" />
-        <PropertyColumn Property="maindatadealer => maindatadealer.StoreHold_Chemical" />
-        <PropertyColumn Property="maindatadealer => maindatadealer.StoreHold_Accessories" />
-        <PropertyColumn Property="maindatadealer => maindatadealer.Store_Chemical_Percent" />
-        <PropertyColumn Property="maindatadealer => maindatadealer.Store_Accessories_Percent" />
+        <PropertyColumn Property="maindatadealer => maindatadealer.DealerCode"  Sortable="true" />
+        <PropertyColumn Property="maindatadealer => maindatadealer.StoreHold_Chemical"  Sortable="true" />
+        <PropertyColumn Property="maindatadealer => maindatadealer.StoreHold_Accessories"  Sortable="true" />
+        <PropertyColumn Property="maindatadealer => maindatadealer.Store_Chemical_Percent"  Sortable="true" />
+        <PropertyColumn Property="maindatadealer => maindatadealer.Store_Accessories_Percent"  Sortable="true" />
 
         <TemplateColumn Context="maindatadealer">
             <a href="@($"maindatadealers/edit?dealer_id={maindatadealer.Dealer_ID}")">Edit</a> |
