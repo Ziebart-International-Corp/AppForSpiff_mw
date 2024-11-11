@@ -28,6 +28,9 @@ namespace AppForSpiff.Models
         public string? ServiceCode { get; set; }
         public string? ServiceName { get; set; }
         public string? Description { get; set; }
+        public string? Make { get; set; }
+        public string? Model { get; set; }
+        public string? VehicleTypeName { get; set; }
     }
 }
 

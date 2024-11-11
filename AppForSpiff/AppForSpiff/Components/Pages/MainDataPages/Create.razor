@@ -100,6 +100,22 @@
                 <InputText id="description" @bind-Value="MainData.Description" class="form-control" /> 
                 <ValidationMessage For="() => MainData.Description" class="text-danger" /> 
             </div>        
+                 
+            <div class="mb-3">
+                <label for="make" class="form-label">Make:</label> 
+                <InputText id="make" @bind-Value="MainData.Make" class="form-control" /> 
+                <ValidationMessage For="() => MainData.Make" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="model" class="form-label">Model:</label> 
+                <InputText id="model" @bind-Value="MainData.Model" class="form-control" /> 
+                <ValidationMessage For="() => MainData.Model" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="vehicletypename" class="form-label">VehicleTypeName:</label> 
+                <InputText id="vehicletypename" @bind-Value="MainData.VehicleTypeName" class="form-control" /> 
+                <ValidationMessage For="() => MainData.VehicleTypeName" class="text-danger" /> 
+            </div>        
             <button type="submit" class="btn btn-primary">Create</button>
         </EditForm>
     </div>
