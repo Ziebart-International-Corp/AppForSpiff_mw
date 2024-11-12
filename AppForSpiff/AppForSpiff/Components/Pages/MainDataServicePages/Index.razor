@@ -14,19 +14,28 @@
 
 <h1>Index</h1>
 
+<!-- Search Section -->
+<div class="mb-3">
+    <div class="form-group mb-3">
+        <input type="text" class="form-control" style="max-width: 300px;" placeholder="Search..." @bind="searchTerm" @bind:event="oninput" />
+        <button class="btn btn-primary mt-2" @onclick="ApplySearchFilter">Search</button>
+    </div>
+</div>
+
+
 <p>
     <a href="maindataservices/create">Create New</a>
 </p>
 
-<QuickGrid Class="table" Items="context.MainDataService">
-    <PropertyColumn Property="maindataservice => maindataservice.DealerCode" />
-    <PropertyColumn Property="maindataservice => maindataservice.ServiceCode" />
-    <PropertyColumn Property="maindataservice => maindataservice.ServiceName" />
-    <PropertyColumn Property="maindataservice => maindataservice.Description" />
-    <PropertyColumn Property="maindataservice => maindataservice.Required_Channel" />
-    <PropertyColumn Property="maindataservice => maindataservice.Min_Sell_Price_Car" />
-    <PropertyColumn Property="maindataservice => maindataservice.Min_Sell_Price_Truck" />
-    <PropertyColumn Property="maindataservice => maindataservice.ComAmount" />
+<QuickGrid Class="table" Items="filteredData">
+    <PropertyColumn Property="maindataservice => maindataservice.DealerCode" Sortable="true" />
+    <PropertyColumn Property="maindataservice => maindataservice.ServiceCode" Sortable="true" />
+    <PropertyColumn Property="maindataservice => maindataservice.ServiceName" Sortable="true" />
+    <PropertyColumn Property="maindataservice => maindataservice.Description" Sortable="true" />
+    <PropertyColumn Property="maindataservice => maindataservice.Required_Channel" Sortable="true" />
+    <PropertyColumn Property="maindataservice => maindataservice.Min_Sell_Price_Car" Sortable="true" />
+    <PropertyColumn Property="maindataservice => maindataservice.Min_Sell_Price_Truck" Sortable="true" />
+    <PropertyColumn Property="maindataservice => maindataservice.ComAmount" Sortable="true" />
 
     <TemplateColumn Context="maindataservice">
         <a href="@($"maindataservices/edit?service_id={maindataservice.Service_ID}")">Edit</a> |
@@ -35,13 +44,44 @@
     </TemplateColumn>
 </QuickGrid>
 
+
 @code {
     private AppForSpiffContext context = default!;
+    private IQueryable<MainDataService> originalData = default!;
+    private IQueryable<MainDataService> filteredData = default!;
+    private string searchTerm = string.Empty;
+    private int CurrentPage = 0;
+    private const int PageSize = 35;
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        context = DbFactory.CreateDbContext();
+        context = await DbFactory.CreateDbContextAsync();
+        originalData = context.MainDataService;
+        filteredData = originalData;
+    }
+
+    private void ApplySearchFilter()
+    {
+        if (!string.IsNullOrWhiteSpace(searchTerm))
+        {
+            filteredData = originalData
+                .Where(maindata =>
+                maindata.DealerCode.Contains(searchTerm) ||
+                maindata.ServiceCode.Contains(searchTerm) ||
+                maindata.ServiceName.Contains(searchTerm) 
+            );
+        }
+        else
+        {
+            filteredData = originalData;
+        }
+
+        CurrentPage = 0;
+        StateHasChanged(); // Refresh the grid after updating filteredData
     }
 
     public async ValueTask DisposeAsync() => await context.DisposeAsync();
 }
+
+
+

@@ -10,21 +10,27 @@
 @using Microsoft.AspNetCore.Authorization
 @attribute [Authorize(Roles = "Admin")]
 
-
 <PageTitle>Index</PageTitle>
 
 <h1>Index</h1>
+<!-- Search Section -->
+<div class="mb-3">
+    <div class="form-group mb-3">
+        <input type="text" class="form-control" style="max-width: 300px;" placeholder="Search..." @bind="searchTerm" @bind:event="oninput" />
+        <button class="btn btn-primary mt-2" @onclick="ApplySearchFilter">Search</button>
+    </div>
+</div>
 
 <p>
     <a href="maindataemployees/create">Create New</a>
 </p>
 
-<QuickGrid Class="table" Items="context.MainDataEmployee">
-    <PropertyColumn Property="maindataemployee => maindataemployee.DealerCode"  Sortable="true" />
-    <PropertyColumn Property="maindataemployee => maindataemployee.FirstName"  Sortable="true" />
-    <PropertyColumn Property="maindataemployee => maindataemployee.LastName"  Sortable="true" />
-    <PropertyColumn Property="maindataemployee => maindataemployee.Spiff_Percent"  Sortable="true" />
-    <PropertyColumn Property="maindataemployee => maindataemployee.Active"  Sortable="true" />
+<QuickGrid Class="table" Items="filteredData">
+    <PropertyColumn Property="maindataemployee => maindataemployee.DealerCode" Sortable="true" />
+    <PropertyColumn Property="maindataemployee => maindataemployee.FirstName" Sortable="true" />
+    <PropertyColumn Property="maindataemployee => maindataemployee.LastName" Sortable="true" />
+    <PropertyColumn Property="maindataemployee => maindataemployee.Spiff_Percent" Sortable="true" />
+    <PropertyColumn Property="maindataemployee => maindataemployee.Active" Sortable="true" />
 
     <TemplateColumn Context="maindataemployee">
         <a href="@($"maindataemployees/edit?edl_employee_id={maindataemployee.Edl_Employee_ID}")">Edit</a> |
@@ -35,10 +41,35 @@
 
 @code {
     private AppForSpiffContext context = default!;
+    private IQueryable<MainDataEmployee> originalData = default!;
+    private IQueryable<MainDataEmployee> filteredData = default!;
+    private string searchTerm = string.Empty;
+    private int CurrentPage = 0;
+    private const int PageSize = 10;
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        context = DbFactory.CreateDbContext();
+        context = await DbFactory.CreateDbContextAsync();
+        originalData = context.MainDataEmployee;
+        filteredData = originalData;
+    }
+
+    private void ApplySearchFilter()
+    {
+        var query = originalData;
+
+        if (!string.IsNullOrWhiteSpace(searchTerm))
+        {
+            query = query.Where(maindata =>
+                maindata.DealerCode.Contains(searchTerm) ||
+                maindata.FirstName.Contains(searchTerm) ||
+                maindata.LastName.Contains(searchTerm) ||
+                maindata.Active.Contains(searchTerm)
+            );
+        }
+
+        CurrentPage = 0;
+        filteredData = query;
     }
 
     public async ValueTask DisposeAsync() => await context.DisposeAsync();

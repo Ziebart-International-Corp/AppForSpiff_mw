@@ -13,12 +13,19 @@
 <PageTitle>Index</PageTitle>
 
 <h1>Index</h1>
+<!-- Search Section -->
+<div class="mb-3">
+    <div class="form-group mb-3">
+        <input type="text" class="form-control" style="max-width: 300px;" placeholder="Search..." @bind="searchTerm" @bind:event="oninput" />
+        <button class="btn btn-primary mt-2" @onclick="ApplySearchFilter">Search</button>
+    </div>
+</div>
 
 <p>
     <a href="maindatapackages/create">Create New</a>
 </p>
 
-<QuickGrid Class="table" Items="context.MainDataPackage">
+<QuickGrid Class="table" Items="filteredData">
     <PropertyColumn Property="maindatapackage => maindatapackage.P_Service_ID"  Sortable="true" />
     <PropertyColumn Property="maindatapackage => maindatapackage.DealerCode"  Sortable="true" />
     <PropertyColumn Property="maindatapackage => maindatapackage.Title"  Sortable="true" />
@@ -38,10 +45,34 @@
 
 @code {
     private AppForSpiffContext context = default!;
+    private IQueryable<MainDataPackage> originalData = default!;
+    private IQueryable<MainDataPackage> filteredData = default!;
+    private string searchTerm = string.Empty;
+    private int CurrentPage = 0;
+    private const int PageSize = 10;
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        context = DbFactory.CreateDbContext();
+        context = await DbFactory.CreateDbContextAsync();
+        originalData = context.MainDataPackage;
+        filteredData = originalData;
+    }
+
+    private void ApplySearchFilter()
+    {
+        var query = originalData;
+
+        if (!string.IsNullOrWhiteSpace(searchTerm))
+        {
+            query = query.Where(maindata =>
+                maindata.DealerCode.Contains(searchTerm) ||
+                maindata.Title.Contains(searchTerm) ||
+                maindata.ServiceCode.Contains(searchTerm)
+            );
+        }
+
+        CurrentPage = 0;
+        filteredData = query;
     }
 
     public async ValueTask DisposeAsync() => await context.DisposeAsync();
