@@ -19,6 +19,8 @@ namespace AppForSpiff.Models
         public decimal? Min_Sell_Price_Car { get; set; }
         public decimal? Min_Sell_Price_Truck { get; set; }
         public decimal? ComAmount { get; set; }
+        public double? ComMinPercent { get; set; }
+        public double? ComMaxPercent { get; set; }
 
     }
 }

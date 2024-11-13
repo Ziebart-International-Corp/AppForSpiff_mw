@@ -54,7 +54,33 @@
                 <label for="comamount" class="form-label">ComAmount:</label> 
                 <InputNumber id="comamount" @bind-Value="MainDataService.ComAmount" class="form-control" /> 
                 <ValidationMessage For="() => MainDataService.ComAmount" class="text-danger" /> 
+            </div>
+            <div class="mb-3">
+                <label for="min_sell_price_truck" class="form-label">Min_Sell_Price_Truck:</label>
+                <InputNumber id="min_sell_price_truck" @bind-Value="MainDataService.Min_Sell_Price_Truck" class="form-control" />
+                <ValidationMessage For="() => MainDataService.Min_Sell_Price_Truck" class="text-danger" />
+            </div>
+            <div class="mb-3">
+                <label for="comamount" class="form-label">ComAmount:</label>
+                <InputNumber id="comamount" @bind-Value="MainDataService.ComAmount" class="form-control" />
+                <ValidationMessage For="() => MainDataService.ComAmount" class="text-danger" />
+            </div>
+
+            <div class="mb-3">
+                <label for="comminpercent" class="form-label">ComMinPercent:</label> 
+                <InputNumber id="comminpercent" @bind-Value="MainDataService.ComMinPercent" class="form-control" />
+                <ValidationMessage For="() => MainDataService.ComMinPercent" class="text-danger" />
             </div>        
+            <div class="mb-3">
+                <label for="commaxpercent" class="form-label">ComMaxPercent:</label> 
+                <InputNumber id="commaxpercent" @bind-Value="MainDataService.ComMaxPercent" class="form-control" />
+                <ValidationMessage For="() => MainDataService.ComMaxPercent" class="text-danger" />
+            </div>        
+
+
+
+
+
             <button type="submit" class="btn btn-primary">Create</button>
         </EditForm>
     </div>
