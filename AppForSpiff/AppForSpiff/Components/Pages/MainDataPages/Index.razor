@@ -35,7 +35,7 @@
     <a href="maindata/create">Create New</a>
 </p>
 
-<QuickGrid Class="table" Items="@PaginatedData" TGridItem="MainData">
+<QuickGrid Class="table" Items="filteredData">
     <PropertyColumn Property="maindata => maindata.Inv_InvoiceHeader_ID" Sortable="true" />
     <PropertyColumn Property="maindata => maindata.DealerCode" Sortable="true" />
     <PropertyColumn Property="maindata => maindata.SalesmanEmployee_ID" Sortable="true" />
@@ -64,26 +64,18 @@
     </TemplateColumn>
 </QuickGrid>
 
-<!-- Pagination Buttons -->
-<div class="pagination-buttons mt-3">
-    <button class="btn btn-secondary" @onclick="PreviousPage" disabled="@(CurrentPage == 0)">Previous</button>
-    <button class="btn btn-secondary" @onclick="NextPage" disabled="@(PaginatedData.Count() < PageSize)">Next</button>
-</div>
-
 @code {
     private AppForSpiffContext context = default!;
-    private List<MainData> originalData = new();
-    private List<MainData> filteredData = new();
+    private IQueryable<MainData> originalData = Enumerable.Empty<MainData>().AsQueryable();
+    private IQueryable<MainData> filteredData = Enumerable.Empty<MainData>().AsQueryable();
     private string searchTerm = string.Empty;
     private DateOnly? startDate;
     private DateOnly? endDate;
-    private int PageSize { get; set; } = 50;
-    private int CurrentPage { get; set; } = 0;
 
     protected override async Task OnInitializedAsync()
     {
         context = await DbFactory.CreateDbContextAsync();
-        originalData = await context.MainData.ToListAsync();
+        originalData = context.MainData;
         ApplyFilter(); // Initial load
     }
 
@@ -101,50 +93,26 @@
                 maindata.LastName.Contains(searchTerm) ||
                 maindata.InvoiceNumber.Contains(searchTerm) ||
                 maindata.ServiceCode.Contains(searchTerm)
-            ).ToList();
+            );
         }
 
         // Apply date range filter if set
         if (startDate.HasValue)
         {
-            filteredData = filteredData.Where(maindata => maindata.InvoiceDate >= startDate.Value).ToList();
+            filteredData = filteredData.Where(maindata => maindata.InvoiceDate >= startDate.Value);
         }
 
         if (endDate.HasValue)
         {
-            filteredData = filteredData.Where(maindata => maindata.InvoiceDate <= endDate.Value).ToList();
+            filteredData = filteredData.Where(maindata => maindata.InvoiceDate <= endDate.Value);
         }
 
-        CurrentPage = 0;
         StateHasChanged();
     }
 
     private void ApplySearchFilter() => ApplyFilter();
 
     private void ApplyDateFilter() => ApplyFilter();
-
-    private IQueryable<MainData> PaginatedData => filteredData
-    .Skip(CurrentPage * PageSize)
-    .Take(PageSize)
-    .AsQueryable();
-
-    private void NextPage()
-    {
-        if ((CurrentPage + 1) * PageSize < filteredData.Count)
-        {
-            CurrentPage++;
-            StateHasChanged();
-        }
-    }
-
-    private void PreviousPage()
-    {
-        if (CurrentPage > 0)
-        {
-            CurrentPage--;
-            StateHasChanged();
-        }
-    }
 
     public async ValueTask DisposeAsync() => await context.DisposeAsync();
 }
