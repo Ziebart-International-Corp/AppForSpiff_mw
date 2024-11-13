@@ -68,9 +68,9 @@
     private AppForSpiffContext context = default!;
     private IQueryable<MainData> originalData = Enumerable.Empty<MainData>().AsQueryable();
     private IQueryable<MainData> filteredData = Enumerable.Empty<MainData>().AsQueryable();
-    private string searchTerm = string.Empty;
-    private DateOnly? startDate;
-    private DateOnly? endDate;
+    private string searchTerm = string.Empty; 
+    private DateOnly? startDate = new DateOnly(DateTime.Now.Year, DateTime.Now.Month, 1); // Start of the current month
+    private DateOnly? endDate = DateOnly.FromDateTime(DateTime.Now); // Today's date
 
     protected override async Task OnInitializedAsync()
     {
