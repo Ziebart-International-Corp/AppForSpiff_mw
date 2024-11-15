@@ -31,6 +31,7 @@ namespace AppForSpiff.Models
         public string? Make { get; set; }
         public string? Model { get; set; }
         public string? VehicleTypeName { get; set; }
+        public string? PackageName { get; set; }
     }
 }
 

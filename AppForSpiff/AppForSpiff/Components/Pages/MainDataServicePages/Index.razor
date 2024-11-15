@@ -70,7 +70,7 @@
                 .Where(maindata =>
                 maindata.DealerCode.Contains(searchTerm) ||
                 maindata.ServiceCode.Contains(searchTerm) ||
-                maindata.ServiceName.Contains(searchTerm) 
+                maindata.ServiceName.Contains(searchTerm)
             );
         }
         else
@@ -84,6 +84,3 @@
 
     public async ValueTask DisposeAsync() => await context.DisposeAsync();
 }
-
-
-

@@ -115,7 +115,15 @@
                 <label for="vehicletypename" class="form-label">VehicleTypeName:</label> 
                 <InputText id="vehicletypename" @bind-Value="MainData.VehicleTypeName" class="form-control" /> 
                 <ValidationMessage For="() => MainData.VehicleTypeName" class="text-danger" /> 
-            </div>        
+            </div>
+            <div class="mb-3">
+                <label for="packagename" class="form-label">PackageName:</label>
+                <InputText id="packagename" @bind-Value="MainData.PackageName" class="form-control" />
+                <ValidationMessage For="() => MainData.PackageName" class="text-danger" />
+            </div>
+
+
+
             <button type="submit" class="btn btn-primary">Create</button>
         </EditForm>
     </div>
