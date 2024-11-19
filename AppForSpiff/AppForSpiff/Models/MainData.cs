@@ -3,6 +3,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 using Microsoft.EntityFrameworkCore;
 using System;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.Globalization;
 
 namespace AppForSpiff.Models
 {
@@ -22,9 +24,12 @@ namespace AppForSpiff.Models
         public string? LastName { get; set; }
         public long? PackageItem_ID { get; set; }
         public long? Svs_Service_ID { get; set; }
+
         public decimal UnitPrice { get; set; }
+        public string fmt_UnitPrice => string.Format(CultureInfo.CurrentCulture, "{0:C}", UnitPrice);
         public decimal Quantity { get; set; }
         public decimal TotalInvoiceDiscountApplied_Stage04 { get; set; }
+        public string fmt_TotalInvoiceDiscountApplied_Stage04 => string.Format(CultureInfo.CurrentCulture, "{0:C}", TotalInvoiceDiscountApplied_Stage04);
         public string? ServiceCode { get; set; }
         public string? ServiceName { get; set; }
         public string? Description { get; set; }

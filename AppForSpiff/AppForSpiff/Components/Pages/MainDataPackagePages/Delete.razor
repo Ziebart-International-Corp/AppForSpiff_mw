@@ -50,8 +50,12 @@
             <dd class="col-sm-10">@maindatapackage.Required_Channel</dd>
         </dl>
         <dl class="row">
-            <dt class="col-sm-2">Min_Sell_Price</dt>
-            <dd class="col-sm-10">@maindatapackage.Min_Sell_Price</dd>
+            <dt class="col-sm-2">Min_Sell_Price_Car</dt>
+            <dd class="col-sm-10">@maindatapackage.Min_Sell_Price_Car</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">Min_Sell_Price_Truck</dt>
+            <dd class="col-sm-10">@maindatapackage.Min_Sell_Price_Truck</dd>
         </dl>
         <EditForm method="post" Model="maindatapackage" OnValidSubmit="DeleteMainDataPackage" FormName="delete" Enhance>
             <button type="submit" class="btn btn-danger" disabled="@(maindatapackage is null)">Delete</button> |

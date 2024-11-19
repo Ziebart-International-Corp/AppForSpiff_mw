@@ -26,11 +26,11 @@
 </p>
 
 <QuickGrid Class="table" Items="filteredData">
-    <PropertyColumn Property="maindataemployee => maindataemployee.DealerCode" Sortable="true" />
-    <PropertyColumn Property="maindataemployee => maindataemployee.FirstName" Sortable="true" />
-    <PropertyColumn Property="maindataemployee => maindataemployee.LastName" Sortable="true" />
-    <PropertyColumn Property="maindataemployee => maindataemployee.Spiff_Percent" Sortable="true" />
-    <PropertyColumn Property="maindataemployee => maindataemployee.Active" Sortable="true" />
+    <PropertyColumn Property="maindataemployee => maindataemployee.DealerCode" Sortable="true" Title="Dealer"/>
+    <PropertyColumn Property="maindataemployee => maindataemployee.FirstName" Sortable="true" Title="First Name"/>
+    <PropertyColumn Property="maindataemployee => maindataemployee.LastName" Sortable="true" Title="Last Name"/>
+    <PropertyColumn Property="maindataemployee => maindataemployee.Spiff_Percent" Sortable="true" Title="Spiff Percent"/>
+    <PropertyColumn Property="maindataemployee => maindataemployee.Active" Sortable="true" Title="Status"/>
 
     <TemplateColumn Context="maindataemployee">
         <a href="@($"maindataemployees/edit?edl_employee_id={maindataemployee.Edl_Employee_ID}")">Edit</a> |

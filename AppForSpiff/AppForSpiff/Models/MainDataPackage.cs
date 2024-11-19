@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Globalization;
 namespace AppForSpiff.Models
 {
 
@@ -17,9 +18,14 @@ namespace AppForSpiff.Models
         public int Channel_Number { get; set; }
         public string? ServiceCode { get; set; }
         public decimal Five_Plus { get; set; }
+        public string fmt_Five_Plus => string.Format(CultureInfo.CurrentCulture, "{0:C}", Five_Plus);
         public decimal Under_Five { get; set; }
+        public string fmt_Under_Five => string.Format(CultureInfo.CurrentCulture, "{0:C}", Under_Five);
         public int Required_Channel { get; set; }
-        public decimal Min_Sell_Price { get; set; }
+        public decimal? Min_Sell_Price_Car { get; set; }
+        public string fmt_Min_Sell_Price_Car => string.Format(CultureInfo.CurrentCulture, "{0:C}", Min_Sell_Price_Car);
+        public decimal? Min_Sell_Price_Truck { get; set; }
+        public string fmt_Min_Sell_Price_Truck => string.Format(CultureInfo.CurrentCulture, "{0:C}", Min_Sell_Price_Truck);
     }
 }
 

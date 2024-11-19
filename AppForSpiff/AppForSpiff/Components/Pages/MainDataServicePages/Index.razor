@@ -28,16 +28,21 @@
 </p>
 
 <QuickGrid Class="table" Items="filteredData">
-    <PropertyColumn Property="maindataservice => maindataservice.DealerCode" Sortable="true" />
-    <PropertyColumn Property="maindataservice => maindataservice.ServiceCode" Sortable="true" />
-    <PropertyColumn Property="maindataservice => maindataservice.ServiceName" Sortable="true" />
+    <PropertyColumn Property="maindataservice => maindataservice.DealerCode" Sortable="true" Title="Dealer"/>
+    <PropertyColumn Property="maindataservice => maindataservice.ServiceCode" Sortable="true" Title="Service Code"/>
+    <PropertyColumn Property="maindataservice => maindataservice.ServiceName" Sortable="true" Title="Service Name"/>
+    @if (showPriceColumn)
+    {
     <PropertyColumn Property="maindataservice => maindataservice.Description" Sortable="true" />
     <PropertyColumn Property="maindataservice => maindataservice.Required_Channel" Sortable="true" />
-    <PropertyColumn Property="maindataservice => maindataservice.Min_Sell_Price_Car" Sortable="true" />
-    <PropertyColumn Property="maindataservice => maindataservice.Min_Sell_Price_Truck" Sortable="true" />
-    <PropertyColumn Property="maindataservice => maindataservice.ComAmount" Sortable="true" />
-    <PropertyColumn Property="maindataservice => maindataservice.ComMinPercent" Sortable="true" />
-    <PropertyColumn Property="maindataservice => maindataservice.ComMaxPercent" Sortable="true" />
+    }
+
+    <PropertyColumn Property="maindataservice => maindataservice.fmt_Min_Sell_Price_Car" Sortable="true" Title="Min Sell Price Car"/>
+
+    <PropertyColumn Property="maindataservice => maindataservice.fmt_Min_Sell_Price_Truck" Sortable="true" Title="Min Sell Price Truck"/>
+    <PropertyColumn Property="maindataservice => maindataservice.fmt_ComAmount" Sortable="true" Title="Commission"/>
+    <PropertyColumn Property="maindataservice => maindataservice.ComMinPercent" Sortable="true" Title="Min Commission Percent"/>
+    <PropertyColumn Property="maindataservice => maindataservice.ComMaxPercent" Sortable="true" Title="Max Commission Percent"/>
 
     <TemplateColumn Context="maindataservice">
         <a href="@($"maindataservices/edit?service_id={maindataservice.Service_ID}")">Edit</a> |
@@ -54,7 +59,12 @@
     private string searchTerm = string.Empty;
     private int CurrentPage = 0;
     private const int PageSize = 35;
+    private bool showPriceColumn = false;  // Set to false to hide the Price column
 
+    private void TogglePriceColumn()
+    {
+        showPriceColumn = !showPriceColumn;  // Toggle visibility
+    }
     protected override async Task OnInitializedAsync()
     {
         context = await DbFactory.CreateDbContextAsync();

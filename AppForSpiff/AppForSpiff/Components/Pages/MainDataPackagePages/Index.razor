@@ -26,15 +26,25 @@
 </p>
 
 <QuickGrid Class="table" Items="filteredData">
-    <PropertyColumn Property="maindatapackage => maindatapackage.P_Service_ID"  Sortable="true" />
-    <PropertyColumn Property="maindatapackage => maindatapackage.DealerCode"  Sortable="true" />
+    @if (showPriceColumn)
+    {
+        <PropertyColumn Property="maindatapackage => maindatapackage.P_Service_ID"  Sortable="true" />
+    }
+    <PropertyColumn Property="maindatapackage => maindatapackage.DealerCode"  Sortable="true" Title="Dealer"/>
     <PropertyColumn Property="maindatapackage => maindatapackage.Title"  Sortable="true" />
-    <PropertyColumn Property="maindatapackage => maindatapackage.Channel_Number"  Sortable="true" />
-    <PropertyColumn Property="maindatapackage => maindatapackage.ServiceCode"  Sortable="true" />
-    <PropertyColumn Property="maindatapackage => maindatapackage.Five_Plus"  Sortable="true" />
-    <PropertyColumn Property="maindatapackage => maindatapackage.Under_Five"  Sortable="true" />
+    @if (showPriceColumn)
+    {
+        <PropertyColumn Property="maindatapackage => maindatapackage.Channel_Number"  Sortable="true" Title="Channel"/>
+    }
+    <PropertyColumn Property="maindatapackage => maindatapackage.ServiceCode"  Sortable="true" Title="Service Code"/>
+    <PropertyColumn Property="maindatapackage => maindatapackage.fmt_Five_Plus"  Sortable="true" Title="Commission Over Target"/>
+    <PropertyColumn Property="maindatapackage => maindatapackage.fmt_Under_Five"  Sortable="true" Title="Commission Under Target"/>
+    @if (showPriceColumn)
+    {
     <PropertyColumn Property="maindatapackage => maindatapackage.Required_Channel"  Sortable="true" />
-    <PropertyColumn Property="maindatapackage => maindatapackage.Min_Sell_Price"  Sortable="true" />
+    }
+    <PropertyColumn Property="maindatapackage => maindatapackage.fmt_Min_Sell_Price_Car" Sortable="true" Title="Min Sell Price Car"/>
+    <PropertyColumn Property="maindatapackage => maindatapackage.fmt_Min_Sell_Price_Truck" Sortable="true" Title="Min Sell Price Truck"/>
 
     <TemplateColumn Context="maindatapackage">
         <a href="@($"maindatapackages/edit?packageitem_id={maindatapackage.PackageItem_ID}")">Edit</a> |
@@ -50,7 +60,12 @@
     private string searchTerm = string.Empty;
     private int CurrentPage = 0;
     private const int PageSize = 10;
+    private bool showPriceColumn = false;  // Set to false to hide the Price column
 
+    private void TogglePriceColumn()
+    {
+        showPriceColumn = !showPriceColumn;  // Toggle visibility
+    }
     protected override async Task OnInitializedAsync()
     {
         context = await DbFactory.CreateDbContextAsync();

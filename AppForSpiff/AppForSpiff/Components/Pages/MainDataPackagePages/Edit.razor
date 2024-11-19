@@ -63,9 +63,14 @@ else
                     <ValidationMessage For="() => MainDataPackage.Required_Channel" class="text-danger" />
                 </div>
                 <div class="mb-3">
-                    <label for="min_sell_price" class="form-label">Min_Sell_Price:</label>
-                    <InputNumber id="min_sell_price" @bind-Value="MainDataPackage.Min_Sell_Price" class="form-control" />
-                    <ValidationMessage For="() => MainDataPackage.Min_Sell_Price" class="text-danger" />
+                    <label for="min_sell_price_car" class="form-label">Min_Sell_Price_Car:</label>
+                    <InputNumber id="min_sell_price_car" @bind-Value="MainDataPackage.Min_Sell_Price_Car" class="form-control" />
+                    <ValidationMessage For="() => MainDataPackage.Min_Sell_Price_Car" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="min_sell_price_truck" class="form-label">Min_Sell_Price_Truck:</label>
+                    <InputNumber id="min_sell_price_truck" @bind-Value="MainDataPackage.Min_Sell_Price_Truck" class="form-control" />
+                    <ValidationMessage For="() => MainDataPackage.Min_Sell_Price_Truck" class="text-danger" />
                 </div>
                 <button type="submit" class="btn btn-primary">Save</button>
             </EditForm>

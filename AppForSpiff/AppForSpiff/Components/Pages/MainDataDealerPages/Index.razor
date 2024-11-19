@@ -34,11 +34,11 @@ else
         <a href="maindatadealers/create">Create New</a>
     </p>
     <QuickGrid Class="table" Items="dealerInfo.AsQueryable()" TGridItem="MainDataDealer">
-        <PropertyColumn Property="maindatadealer => maindatadealer.DealerCode"  Sortable="true" />
-        <PropertyColumn Property="maindatadealer => maindatadealer.StoreHold_Chemical"  Sortable="true" />
-        <PropertyColumn Property="maindatadealer => maindatadealer.StoreHold_Accessories"  Sortable="true" />
-        <PropertyColumn Property="maindatadealer => maindatadealer.Store_Chemical_Percent"  Sortable="true" />
-        <PropertyColumn Property="maindatadealer => maindatadealer.Store_Accessories_Percent"  Sortable="true" />
+        <PropertyColumn Property="maindatadealer => maindatadealer.DealerCode"  Sortable="true" Title="Dealer"/>
+        <PropertyColumn Property="maindatadealer => maindatadealer.fmt_StoreHold_Chemical"  Sortable="true" Title="Chem Store Hold"/>
+        <PropertyColumn Property="maindatadealer => maindatadealer.fmt_StoreHold_Accessories"  Sortable="true" Title="Acc Store Hold"/>
+        <PropertyColumn Property="maindatadealer => maindatadealer.Store_Chemical_Percent"  Sortable="true" Title="Store Chem Percent"/>
+        <PropertyColumn Property="maindatadealer => maindatadealer.Store_Accessories_Percent"  Sortable="true" Title="Store Acc Percent"/>
 
         <TemplateColumn Context="maindatadealer">
             <a href="@($"maindatadealers/edit?dealer_id={maindatadealer.Dealer_ID}")">Edit</a> |
