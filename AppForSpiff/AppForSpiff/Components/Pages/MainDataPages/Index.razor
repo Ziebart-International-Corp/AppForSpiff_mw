@@ -48,10 +48,7 @@
     <PropertyColumn Property="maindata => maindata.Channel_Number" Sortable="true" Title="Channel"/>
     <PropertyColumn Property="maindata => maindata.InvoiceDate" Sortable="true" Title="Invoice Date"/>
     <PropertyColumn Property="maindata => maindata.InvoiceNumber" Sortable="true" Title="Invoice Number"/>
-    @if (showPriceColumn)
-    {
-        <PropertyColumn Property="maindata => maindata.InvoiceTotal" Sortable="true" />
-    }
+    <PropertyColumn Property="maindata => maindata.fmt_InvoiceTotal" Sortable="true" Title="Invoice Total"/>
     <PropertyColumn Property="maindata => maindata.FirstName" Sortable="true" title ="First Name"/>
     <PropertyColumn Property="maindata => maindata.LastName" Sortable="true" Title="Last Name"/>
     @if (showPriceColumn)
@@ -154,7 +151,9 @@
             (maindata.Make != null && maindata.Make.Contains(searchTerm)) ||
             (maindata.Model != null && maindata.Model.Contains(searchTerm)) ||
             (maindata.VehicleTypeName != null && maindata.VehicleTypeName.Contains(searchTerm)) ||
-            (maindata.PackageName != null && maindata.PackageName.Contains(searchTerm))
+            (maindata.PackageName != null && maindata.PackageName.Contains(searchTerm)) ||
+
+            maindata.InvoiceTotal.ToString().Contains(searchTerm)
             );
         }
 

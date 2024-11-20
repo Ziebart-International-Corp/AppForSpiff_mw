@@ -20,6 +20,7 @@ namespace AppForSpiff.Models
         public DateOnly? InvoiceDate { get; set; }
         public string? InvoiceNumber { get; set; }
         public decimal InvoiceTotal { get; set; }
+        public string fmt_InvoiceTotal => string.Format(CultureInfo.CurrentCulture, "{0:C}", InvoiceTotal);
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
         public long? PackageItem_ID { get; set; }
