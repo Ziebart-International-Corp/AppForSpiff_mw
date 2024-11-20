@@ -30,11 +30,19 @@
 <QuickGrid Class="table" Items="filteredData">
     <PropertyColumn Property="maindataservice => maindataservice.DealerCode" Sortable="true" Title="Dealer"/>
     <PropertyColumn Property="maindataservice => maindataservice.ServiceCode" Sortable="true" Title="Service Code"/>
-    <PropertyColumn Property="maindataservice => maindataservice.ServiceName" Sortable="true" Title="Service Name"/>
+
+    <TemplateColumn Title="Service Name" Context="maindataservice">
+        <div style="width: auto; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+            @maindataservice.ServiceName
+        </div>
+    </TemplateColumn>
+
     @if (showPriceColumn)
     {
-    <PropertyColumn Property="maindataservice => maindataservice.Description" Sortable="true" />
-    <PropertyColumn Property="maindataservice => maindataservice.Required_Channel" Sortable="true" />
+        <PropertyColumn Property="maindataservice => maindataservice.ServiceName" Sortable="true" Title="Service Name" />
+        <PropertyColumn Property="maindataservice => maindataservice.ServiceName" Sortable="true" Title="Service Name" />
+        <PropertyColumn Property="maindataservice => maindataservice.Description" Sortable="true" />
+        <PropertyColumn Property="maindataservice => maindataservice.Required_Channel" Sortable="true" />
     }
 
     <PropertyColumn Property="maindataservice => maindataservice.fmt_Min_Sell_Price_Car" Sortable="true" Title="Min Sell Price Car"/>
@@ -45,9 +53,11 @@
     <PropertyColumn Property="maindataservice => maindataservice.ComMaxPercent" Sortable="true" Title="Max Commission Percent"/>
 
     <TemplateColumn Context="maindataservice">
-        <a href="@($"maindataservices/edit?service_id={maindataservice.Service_ID}")">Edit</a> |
-        <a href="@($"maindataservices/details?service_id={maindataservice.Service_ID}")">Details</a> |
-        <a href="@($"maindataservices/delete?service_id={maindataservice.Service_ID}")">Delete</a>
+        <div style="width: auto; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+            <a href="@($"maindataservices/edit?service_id={maindataservice.Service_ID}")">Edit</a> |
+            <a href="@($"maindataservices/details?service_id={maindataservice.Service_ID}")">Details</a> |
+            <a href="@($"maindataservices/delete?service_id={maindataservice.Service_ID}")">Delete</a>
+        </div>
     </TemplateColumn>
 </QuickGrid>
 
@@ -76,11 +86,15 @@
     {
         if (!string.IsNullOrWhiteSpace(searchTerm))
         {
-            filteredData = originalData
-                .Where(maindata =>
-                maindata.DealerCode.Contains(searchTerm) ||
-                maindata.ServiceCode.Contains(searchTerm) ||
-                maindata.ServiceName.Contains(searchTerm)
+            filteredData = originalData.Where(maindataservice =>
+            (maindataservice.DealerCode != null && maindataservice.DealerCode.Contains(searchTerm)) ||
+            (maindataservice.ServiceCode != null && maindataservice.ServiceCode.Contains(searchTerm)) ||
+            (maindataservice.ServiceName != null && maindataservice.ServiceName.Contains(searchTerm)) ||
+            (maindataservice.Min_Sell_Price_Car.HasValue && maindataservice.Min_Sell_Price_Car.Value.ToString().Contains(searchTerm)) ||
+            (maindataservice.Min_Sell_Price_Truck.HasValue && maindataservice.Min_Sell_Price_Truck.Value.ToString().Contains(searchTerm)) ||
+            (maindataservice.ComAmount.HasValue && maindataservice.ComAmount.Value.ToString().Contains(searchTerm)) ||
+            (maindataservice.ComMinPercent.HasValue && maindataservice.ComMinPercent.Value.ToString().Contains(searchTerm)) ||
+            (maindataservice.ComMaxPercent.HasValue && maindataservice.ComMaxPercent.Value.ToString().Contains(searchTerm))
             );
         }
         else

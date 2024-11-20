@@ -60,13 +60,14 @@
 
         if (!string.IsNullOrWhiteSpace(searchTerm))
         {
-            query = query.Where(maindata =>
-                maindata.DealerCode.Contains(searchTerm) ||
-                maindata.FirstName.Contains(searchTerm) ||
-                maindata.LastName.Contains(searchTerm) ||
-                maindata.Active.Contains(searchTerm)
+            query = originalData.Where(maindataemployee =>
+            (maindataemployee.DealerCode != null && maindataemployee.DealerCode.Contains(searchTerm)) ||
+            (maindataemployee.FirstName != null && maindataemployee.FirstName.Contains(searchTerm)) ||
+            (maindataemployee.LastName != null && maindataemployee.LastName.Contains(searchTerm)) ||
+            (maindataemployee.Spiff_Percent.HasValue && maindataemployee.Spiff_Percent.Value.ToString().Contains(searchTerm)) ||
+            (maindataemployee.Active != null && maindataemployee.Active.Contains(searchTerm))
             );
-        }
+    }
 
         CurrentPage = 0;
         filteredData = query;

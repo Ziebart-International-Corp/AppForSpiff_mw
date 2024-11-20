@@ -31,9 +31,15 @@
         <PropertyColumn Property="maindatapackage => maindatapackage.P_Service_ID"  Sortable="true" />
     }
     <PropertyColumn Property="maindatapackage => maindatapackage.DealerCode"  Sortable="true" Title="Dealer"/>
-    <PropertyColumn Property="maindatapackage => maindatapackage.Title"  Sortable="true" />
+
+    <TemplateColumn Title="Package Name" Context="maindatapackage">
+        <div style="width: auto; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+            @maindatapackage.Title
+        </div>
+    </TemplateColumn>
     @if (showPriceColumn)
     {
+        <PropertyColumn Property="maindatapackage => maindatapackage.Title" Sortable="true" />
         <PropertyColumn Property="maindatapackage => maindatapackage.Channel_Number"  Sortable="true" Title="Channel"/>
     }
     <PropertyColumn Property="maindatapackage => maindatapackage.ServiceCode"  Sortable="true" Title="Service Code"/>
@@ -47,9 +53,11 @@
     <PropertyColumn Property="maindatapackage => maindatapackage.fmt_Min_Sell_Price_Truck" Sortable="true" Title="Min Sell Price Truck"/>
 
     <TemplateColumn Context="maindatapackage">
+    <div style="width: auto; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
         <a href="@($"maindatapackages/edit?packageitem_id={maindatapackage.PackageItem_ID}")">Edit</a> |
         <a href="@($"maindatapackages/details?packageitem_id={maindatapackage.PackageItem_ID}")">Details</a> |
         <a href="@($"maindatapackages/delete?packageitem_id={maindatapackage.PackageItem_ID}")">Delete</a>
+    </div>
     </TemplateColumn>
 </QuickGrid>
 
@@ -79,11 +87,17 @@
 
         if (!string.IsNullOrWhiteSpace(searchTerm))
         {
-            query = query.Where(maindata =>
-                maindata.DealerCode.Contains(searchTerm) ||
-                maindata.Title.Contains(searchTerm) ||
-                maindata.ServiceCode.Contains(searchTerm)
+            query = originalData.Where(maindatapackage =>
+            (maindatapackage.DealerCode != null && maindatapackage.DealerCode.Contains(searchTerm)) ||
+            (maindatapackage.Title != null && maindatapackage.Title.Contains(searchTerm)) ||
+            maindatapackage.Channel_Number.ToString().Contains(searchTerm) ||
+            (maindatapackage.ServiceCode != null && maindatapackage.ServiceCode.Contains(searchTerm)) ||
+            maindatapackage.Five_Plus.ToString().Contains(searchTerm) ||
+            maindatapackage.Under_Five.ToString().Contains(searchTerm) ||
+            (maindatapackage.Min_Sell_Price_Car.HasValue && maindatapackage.Min_Sell_Price_Car.Value.ToString().Contains(searchTerm)) ||
+            (maindatapackage.Min_Sell_Price_Truck.HasValue && maindatapackage.Min_Sell_Price_Truck.Value.ToString().Contains(searchTerm))
             );
+
         }
 
         CurrentPage = 0;

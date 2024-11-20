@@ -34,8 +34,8 @@
 <p>
     <a href="maindata/create">Create New</a>
 </p>
-
-<QuickGrid Class="table" Items="filteredData">
+    
+<QuickGrid class="table" Items="filteredData">
      @if (showPriceColumn) 
     {
         <PropertyColumn Property="maindata => maindata.Inv_InvoiceHeader_ID" Sortable="true" />
@@ -65,21 +65,51 @@
     {
         <PropertyColumn Property="maindata => maindata.fmt_TotalInvoiceDiscountApplied_Stage04" Sortable="true" Title="Line Item Amount"/>
     }
-    <PropertyColumn Property="maindata => maindata.ServiceCode" Sortable="true" title="Service Code"/>
-    <PropertyColumn Property="maindata => maindata.ServiceName" Sortable="true" Title="Service Name"/>
+    <PropertyColumn Property="maindata => maindata.ServiceCode" Sortable="true" Title="Service Code"/>
+    
+    <TemplateColumn Title="Service Name" Context="maindata">
+            <div style="width: auto; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                @maindata.ServiceName
+            </div>
+    </TemplateColumn>
+
     @if (showPriceColumn)
     {
+        <PropertyColumn Property="maindata => maindata.ServiceName" Sortable="true" Title="Service Name" />
         <PropertyColumn Property="maindata => maindata.Description" Sortable="true" />
+        <PropertyColumn Property="maindata => maindata.Make" Sortable="true" />
+        <PropertyColumn Property="maindata => maindata.Model" Sortable="true" />
     }
-    <PropertyColumn Property="maindata => maindata.Make" Sortable="true" />
-    <PropertyColumn Property="maindata => maindata.Model" Sortable="true" />
-    <PropertyColumn Property="maindata => maindata.VehicleTypeName" Sortable="true" Title="Type"/>
-    <PropertyColumn Property="maindata => maindata.PackageName" Sortable="true" Title="Package"/>
 
+    <TemplateColumn Title="Make" Context="maindata">
+        <div style="width: auto; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+            @maindata.Make
+        </div>
+    </TemplateColumn>
+    <TemplateColumn Title="Model" Context="maindata">
+        <div style="width: auto; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+            @maindata.Model
+        </div>
+    </TemplateColumn>
+
+    <PropertyColumn Property="maindata => maindata.VehicleTypeName" Sortable="true" Title="Type"/>
+
+    <TemplateColumn Title="Package Name" Context="maindata">
+        <div style="width: auto; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+            @maindata.PackageName
+        </div>
+    </TemplateColumn>
+
+    @if (showPriceColumn)
+    {
+    <PropertyColumn Property="maindata => maindata.PackageName" Sortable="true" Title="Package"/>
+    }
     <TemplateColumn Context="maindata">
+        <div style="width:auto; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
         <a href="@($"maindata/edit?invoiceheader_service_id={maindata.InvoiceHeader_Service_ID}")">Edit</a> |
         <a href="@($"maindata/details?invoiceheader_service_id={maindata.InvoiceHeader_Service_ID}")">Details</a> |
         <a href="@($"maindata/delete?invoiceheader_service_id={maindata.InvoiceHeader_Service_ID}")">Delete</a>
+        </div>
     </TemplateColumn>
 </QuickGrid>
 
@@ -110,13 +140,21 @@
         // Apply search term filter if set
         if (!string.IsNullOrWhiteSpace(searchTerm))
         {
-            filteredData = filteredData.Where(maindata =>
-                maindata.Inv_InvoiceHeader_ID.ToString().Contains(searchTerm) ||
-                maindata.DealerCode.Contains(searchTerm) ||
-                maindata.FirstName.Contains(searchTerm) ||
-                maindata.LastName.Contains(searchTerm) ||
-                maindata.InvoiceNumber.Contains(searchTerm) ||
-                maindata.ServiceCode.Contains(searchTerm)
+            filteredData = originalData.Where(maindata =>
+            (maindata.DealerCode != null && maindata.DealerCode.Contains(searchTerm)) ||
+            maindata.Channel_Number.ToString().Contains(searchTerm) ||
+            (maindata.InvoiceNumber != null && maindata.InvoiceNumber.Contains(searchTerm)) ||
+            maindata.InvoiceTotal.ToString().Contains(searchTerm) ||
+            (maindata.FirstName != null && maindata.FirstName.Contains(searchTerm)) ||
+            (maindata.LastName != null && maindata.LastName.Contains(searchTerm)) ||
+            maindata.UnitPrice.ToString().Contains(searchTerm) ||
+            maindata.Quantity.ToString().Contains(searchTerm) ||
+            (maindata.ServiceCode != null && maindata.ServiceCode.Contains(searchTerm)) ||
+            (maindata.ServiceName != null && maindata.ServiceName.Contains(searchTerm)) ||
+            (maindata.Make != null && maindata.Make.Contains(searchTerm)) ||
+            (maindata.Model != null && maindata.Model.Contains(searchTerm)) ||
+            (maindata.VehicleTypeName != null && maindata.VehicleTypeName.Contains(searchTerm)) ||
+            (maindata.PackageName != null && maindata.PackageName.Contains(searchTerm))
             );
         }
 
