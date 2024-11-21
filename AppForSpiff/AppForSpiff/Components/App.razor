@@ -15,6 +15,23 @@
 <body>
     <Routes />
     <script src="_framework/blazor.web.js"></script>
+    <script>
+        window.downloadFileFromStream = async (fileName, contentStreamReference) => {
+        console.log('Downloading file:', fileName);  // Add this for debugging
+        const arrayBuffer = await contentStreamReference.arrayBuffer();
+        console.log('ArrayBuffer:', arrayBuffer);  // Log array buffer to check data
+
+        const blob = new Blob([arrayBuffer], {type: 'text/csv' });
+        const url = URL.createObjectURL(blob);
+        const anchorElement = document.createElement('a');
+        anchorElement.href = url;
+        anchorElement.download = fileName ?? '';  // Use 'download' attribute for filename
+
+        document.body.appendChild(anchorElement);
+        anchorElement.click();
+        document.body.removeChild(anchorElement);
+        URL.revokeObjectURL(url);
+            };</script>
 </body>
 
 </html>

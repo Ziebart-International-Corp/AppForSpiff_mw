@@ -67,6 +67,10 @@ builder.Services.ConfigureApplicationCookie(opt =>
     opt.EventsType = typeof(CookieEvents);
 });
 
+//mw
+builder.Services.AddScoped<EmpServices>();
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
