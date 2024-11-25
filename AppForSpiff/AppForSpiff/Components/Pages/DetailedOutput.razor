@@ -1,71 +1,674 @@
 ﻿@page "/detailedoutput"
-@attribute [StreamRendering]
-
-
+@using AppForSpiff.Data
+@using AppForSpiff.Components.Services
+@using CsvHelper
+@using CsvHelper.Configuration
+@using System.Globalization
+@using System.Text
+@using System.IO
+@inject Services.EmpServices empServices
+@inject IJSRuntime JSRuntime
+@rendermode InteractiveServer
 
 @using Microsoft.AspNetCore.Authorization
 @attribute [Authorize(Roles = "Admin")]
 
+<PageTitle>Index</PageTitle>
 
+<button class="btn-danger" @onclick="Print" style="margin-bottom: 10px;">Print</button>
+<div class="mb-3">
+    <!-- Date Filter Section -->
+    <div class="form-group d-flex align-items-center mb-3">
 
-<PageTitle>Weather</PageTitle>
+        <label class="me-2">Dealer Code:</label>
+        <InputText @bind-Value="dealerCode" class="form-control me-3" style="max-width: 200px;" />
 
-<h1>Weather</h1>
+        <label class="me-2">Start Date:</label>
+        <InputDate @bind-Value="StartDate" class="form-control me-3" style="max-width: 200px;" />
 
-<p>This component demonstrates showing data.</p>
+        <label class="me-2">End Date:</label>
+        <InputDate @bind-Value="EndDate" class="form-control" style="max-width: 200px;" />
+        <button class="btn btn-secondary ms-3" @onclick="ApplyDateFilter">Apply Date Filter</button>
+    </div>
+</div>
+<br />
 
-@if (forecasts == null)
-{
-    <p><em>Loading...</em></p>
-}
-else
-{
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Date</th>
-                <th>Temp. (C)</th>
-                <th>Temp. (F)</th>
-                <th>Summary</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var forecast in forecasts)
-            {
-                <tr>
-                    <td>@forecast.Date.ToShortDateString()</td>
-                    <td>@forecast.TemperatureC</td>
-                    <td>@forecast.TemperatureF</td>
-                    <td>@forecast.Summary</td>
-                </tr>
-            }
-        </tbody>
-    </table>
-}
-
-@code {
-    private WeatherForecast[]? forecasts;
-
-    protected override async Task OnInitializedAsync()
-    {
-        // Simulate asynchronous loading to demonstrate streaming rendering
-        await Task.Delay(500);
-
-        var startDate = DateOnly.FromDateTime(DateTime.Now);
-        var summaries = new[] { "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching" };
-        forecasts = Enumerable.Range(1, 5).Select(index => new WeatherForecast
-        {
-            Date = startDate.AddDays(index),
-            TemperatureC = Random.Shared.Next(-20, 55),
-            Summary = summaries[Random.Shared.Next(summaries.Length)]
-        }).ToArray();
+<p style="text-align: center;"><span style="font-size: 22px;">Section 1: Store Chemicals and Accessories:</span></p>
+<style>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+        font-size: 1em;
+        font-family: Arial, sans-serif;
+        text-align: left;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
 
-    private class WeatherForecast
+    thead {
+        background-color: #f4f4f4;
+    }
+
+    th, td {
+        padding: 12px 15px;
+        border: 1px solid #ddd;
+    }
+
+    th {
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+
+    tbody tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    tbody tr:hover {
+        background-color: #f1f1f1;
+    }
+
+    tbody td[colspan="7"] {
+        text-align: center;
+        font-style: italic;
+        color: #666;
+    }
+</style>
+
+<table>
+    <thead>
+        <tr>
+            <th>Dealer</th>
+            <th>Service Code</th>
+            <th>Service Name</th>
+            <th>Quantity</th>
+            <th>Amount</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (IsLoading)
+        {
+            <tr>
+                <td colspan="7">Loading...</td>
+            </tr>
+        }
+        else if (empdetails == null || !empdetails.Any())
+        {
+            <tr>
+                <td colspan="7">No data available. Please select a date range and click "Run Query".</td>
+            </tr>
+        }
+        else
+        {
+            @foreach (var item in empdetails)
+            {
+                <tr>
+                    <td>@item.DealerCode</td>
+                    <td>@item.ServiceCode</td>
+                    <td>@item.ServiceName</td>
+                    <td>@item.Quantity</td>
+                    <td>@item.Amount</td>
+                    <td>@item.Status</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+<br />
+<br />
+
+<br />
+<br />
+
+<p style="text-align: left;">CHEMICALS CALCULATIONS:</p>
+<style>
+    table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 1em;
+    font-family: Arial, sans-serif;
+    text-align: left;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    thead {
+    background-color: #f4f4f4;
+    }
+
+    th, td {
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    }
+
+    th {
+    font-weight: bold;
+    text-transform: uppercase;
+    }
+
+    tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+    }
+
+    tbody tr:hover {
+    background-color: #f1f1f1;
+    }
+
+    tbody td[colspan="7"] {
+    text-align: center;
+    font-style: italic;
+    color: #666;
+    }
+</style>
+<table>
+    <thead>
+        <tr>
+            <th>Dealer</th>
+            <th>Chemicals</th>
+            <th>Store Hold</th>
+            <th>Increase / Decrease</th>
+            <th>Store Percent</th>
+            <th>Subtotal</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Emp Percent</th>
+            <th>Chem Bonus</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (IsLoading)
+        {
+            <tr>
+                <td colspan="7">Loading...</td>
+            </tr>
+        }
+        else if (empdetails2 == null || !empdetails2.Any())
+        {
+            <tr>
+                <td colspan="7">No data available. Please select a date range and click "Run Query".</td>
+            </tr>
+        }
+        else
+        {
+            @foreach (var item2 in empdetails2)
+            {
+                <tr>
+                    <td>@item2.Dealer_Code</td>
+                    <td>@item2.Chemicals</td>
+                    <td>@item2.Chemical_hold</td>
+                    <td>@item2.Chem_Inc_Dec</td>
+                    <td>@item2.Store_Chem_Percent</td>
+                    <td>@item2.Chem_Subtotal</td>
+                    <td>@item2.First_Name</td>
+                    <td>@item2.Last_Name</td>
+                    <td>@item2.Chem_Emp_Percent</td>
+                    <td>@item2.Chem_Bonus</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+<br />
+<br />
+
+<br />
+<br />
+
+<p style="text-align: left;">ACCESSORIES CALCULATIONS:</p>
+<style>
+    table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 1em;
+    font-family: Arial, sans-serif;
+    text-align: left;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    thead {
+    background-color: #f4f4f4;
+    }
+
+    th, td {
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    }
+
+    th {
+    font-weight: bold;
+    text-transform: uppercase;
+    }
+
+    tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+    }
+
+    tbody tr:hover {
+    background-color: #f1f1f1;
+    }
+
+    tbody td[colspan="7"] {
+    text-align: center;
+    font-style: italic;
+    color: #666;
+    }
+</style>
+
+<table>
+    <thead>
+        <tr>
+            <th>Dealer</th>
+            <th>Accessories</th>
+            <th>Store Hold</th>
+            <th>Increase / Decrease</th>
+            <th>Store Percent</th>
+            <th>Subtotal</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Emp Percent</th>
+            <th>Acc Bonus</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (IsLoading)
+        {
+            <tr>
+                <td colspan="7">Loading...</td>
+            </tr>
+        }
+        else if (empdetails3 == null || !empdetails3.Any())
+        {
+            <tr>
+                <td colspan="7">No data available. Please select a date range and click "Run Query".</td>
+            </tr>
+        }
+        else
+        {
+            @foreach (var item3 in empdetails3)
+            {
+                <tr>
+                    <td>@item3.Dealer_Code</td>
+                    <td>@item3.Accessories</td>
+                    <td>@item3.Accessories_hold</td>
+                    <td>@item3.Acc_Inc_Dec</td>
+                    <td>@item3.Store_Acc_Percent</td>
+                    <td>@item3.Acc_Subtotal</td>
+                    <td>@item3.First_Name</td>
+                    <td>@item3.Last_Name</td>
+                    <td>@item3.Acc_Emp_Percent</td>
+                    <td>@item3.Acc_Bonus</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+
+<br />
+<br />
+
+<br />
+<br />
+<p style="text-align: center;"><span style="font-size: 22px;">Section 2: Packages Data and Calculations:</span></p>
+<style>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+        font-size: 1em;
+        font-family: Arial, sans-serif;
+        text-align: left;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    thead {
+        background-color: #f4f4f4;
+    }
+
+    th, td {
+        padding: 12px 15px;
+        border: 1px solid #ddd;
+    }
+
+    th {
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+
+    tbody tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    tbody tr:hover {
+        background-color: #f1f1f1;
+    }
+
+    tbody td[colspan="7"] {
+        text-align: center;
+        font-style: italic;
+        color: #666;
+    }
+</style>
+
+<table>
+    <thead>
+        <tr>
+            <th>Dealer</th>
+            <th>Invoice Date</th>
+            <th>Invoice Number</th>
+            <th>Package Name</th>
+            <th>Package Total</th>
+            <th>Model</th>
+            <th>Vehicle Type</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Group Package Count</th>
+            <th>Ind Package Count</th>
+            <th>Packages Bonus</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (IsLoading)
+        {
+            <tr>
+                <td colspan="7">Loading...</td>
+            </tr>
+        }
+        else if (empdetails4 == null || !empdetails4.Any())
+        {
+            <tr>
+                <td colspan="7">No data available. Please select a date range and click "Run Query".</td>
+            </tr>
+        }
+        else
+        {
+            @foreach (var item4 in empdetails4)
+            {
+                <tr>
+                    <td>@item4.DealerCode</td>
+                    <td>@item4.InvoiceDate</td>
+                    <td>@item4.InvoiceNumber</td>
+                    <td>@item4.Title</td>
+                    <td>@item4.PackageTotal</td>
+                    <td>@item4.Model</td>
+                    <td>@item4.VehicleTypeName</td>
+                    <td>@item4.FirstName</td>
+                    <td>@item4.LastName</td>
+                    <td>@item4.Group_Package_Count</td>
+                    <td>@item4.Ind_Package_Count</td>
+                    <td>@item4.Commission</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+
+<br />
+<br />
+
+<br />
+<br />
+<p style="text-align: center;"><span style="font-size: 22px;">Section 3: Service Codes not in Packages:</span></p>
+<style>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+        font-size: 1em;
+        font-family: Arial, sans-serif;
+        text-align: left;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    thead {
+        background-color: #f4f4f4;
+    }
+
+    th, td {
+        padding: 12px 15px;
+        border: 1px solid #ddd;
+    }
+
+    th {
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+
+    tbody tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    tbody tr:hover {
+        background-color: #f1f1f1;
+    }
+
+    tbody td[colspan="7"] {
+        text-align: center;
+        font-style: italic;
+        color: #666;
+    }
+</style>
+
+<table>
+    <thead>
+        <tr>
+            <th>Dealer</th>
+            <th>Service Code</th>
+            <th>Invoice Number</th>
+            <th>Sales Price</th>
+            <th>Quantity</th>
+            <th>Model</th>
+            <th>Vehicle Type</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Service Codes Bonus</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (IsLoading)
+        {
+            <tr>
+                <td colspan="7">Loading...</td>
+            </tr>
+        }
+        else if (empdetails5 == null || !empdetails5.Any())
+        {
+            <tr>
+                <td colspan="7">No data available. Please select a date range and click "Run Query".</td>
+            </tr>
+        }
+        else
+        {
+            @foreach (var item5 in empdetails5)
+            {
+                <tr>
+                    <td>@item5.DealerCode</td>
+                    <td>@item5.ServiceCode</td>
+                    <td>@item5.InvoiceNumber</td>
+                    <td>@item5.SalesPrice</td>
+                    <td>@item5.Quantity</td>
+                    <td>@item5.Model</td>
+                    <td>@item5.VehicleTypeName</td>
+                    <td>@item5.FirstName</td>
+                    <td>@item5.LastName</td>
+                    <td>@item5.Commission</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+@code {
+    private string dealerCode = string.Empty;
+    private DateTime StartDate { get; set; } = DateTime.Today.AddDays(-7); // Default to last 7 days
+    private DateTime EndDate { get; set; } = DateTime.Today; // Default to today
+
+    private Data.ChemAccData[]? empdetails;
+    private Data.ChemData[]? empdetails2;
+    private Data.AccData[]? empdetails3;
+    private Data.PackagesData[]? empdetails4;
+    private Data.ServiceCodesData[]? empdetails5;
+    private bool IsLoading { get; set; }
+
+    private async Task ApplyDateFilter()
     {
-        public DateOnly Date { get; set; }
-        public int TemperatureC { get; set; }
-        public string? Summary { get; set; }
-        public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+        // Call both async methods in sequence
+        await GetChemAccAsync();
+        await GetChemAsync();
+        await GetAccAsync();
+        await GetPackagesAsync();
+        await GetServiceCodesAsync();
+    }
+
+    private async Task GetChemAccAsync()
+    {
+        if (StartDate > EndDate)
+        {
+            await JSRuntime.InvokeVoidAsync("alert", "Start date must be earlier than or equal to the end date.");
+            return;
+        }
+
+        IsLoading = true;
+
+        try
+        {
+            Console.WriteLine($"Fetching data from {StartDate} to {EndDate}");
+            empdetails = await empServices.GetChemAccAsync(dealerCode, StartDate, EndDate);
+
+            Console.WriteLine($"Records retrieved: {empdetails?.Length ?? 0}");
+        }
+        catch (Exception ex)
+        {
+            Console.Error.WriteLine($"Error fetching data: {ex.Message}");
+            empdetails = Array.Empty<ChemAccData>();
+            await JSRuntime.InvokeVoidAsync("alert", "An error occurred while fetching data. Please try again.");
+        }
+        finally
+        {
+            IsLoading = false;
+        }
+    }
+
+    private async Task GetChemAsync()
+    {
+        if (StartDate > EndDate)
+        {
+            await JSRuntime.InvokeVoidAsync("alert", "Start date must be earlier than or equal to the end date.");
+            return;
+        }
+
+        IsLoading = true;
+
+        try
+        {
+            Console.WriteLine($"Fetching data from {StartDate} to {EndDate}");
+            empdetails2 = await empServices.GetChemAsync(dealerCode, StartDate, EndDate);
+
+            Console.WriteLine($"Records retrieved: {empdetails2?.Length ?? 0}");
+        }
+        catch (Exception ex)
+        {
+            Console.Error.WriteLine($"Error fetching data: {ex.Message}");
+            empdetails2 = Array.Empty<ChemData>();
+            await JSRuntime.InvokeVoidAsync("alert", "An error occurred while fetching data. Please try again.");
+        }
+        finally
+        {
+            IsLoading = false;
+        }
+    }
+
+    private async Task GetAccAsync()
+    {
+        if (StartDate > EndDate)
+        {
+            await JSRuntime.InvokeVoidAsync("alert", "Start date must be earlier than or equal to the end date.");
+            return;
+        }
+
+        IsLoading = true;
+
+        try
+        {
+            Console.WriteLine($"Fetching data from {StartDate} to {EndDate}");
+            empdetails3 = await empServices.GetAccAsync(dealerCode, StartDate, EndDate);
+
+            Console.WriteLine($"Records retrieved: {empdetails3?.Length ?? 0}");
+        }
+        catch (Exception ex)
+        {
+            Console.Error.WriteLine($"Error fetching data: {ex.Message}");
+            empdetails3 = Array.Empty<AccData>();
+            await JSRuntime.InvokeVoidAsync("alert", "An error occurred while fetching data. Please try again.");
+        }
+        finally
+        {
+            IsLoading = false;
+        }
+    }
+
+    private async Task GetPackagesAsync()
+    {
+        if (StartDate > EndDate)
+        {
+            await JSRuntime.InvokeVoidAsync("alert", "Start date must be earlier than or equal to the end date.");
+            return;
+        }
+
+        IsLoading = true;
+
+        try
+        {
+            Console.WriteLine($"Fetching data from {StartDate} to {EndDate}");
+            empdetails4 = await empServices.GetPackagesAsync(dealerCode, StartDate, EndDate);
+
+            Console.WriteLine($"Records retrieved: {empdetails4?.Length ?? 0}");
+        }
+        catch (Exception ex)
+        {
+            Console.Error.WriteLine($"Error fetching data: {ex.Message}");
+            empdetails4 = Array.Empty<PackagesData>();
+            await JSRuntime.InvokeVoidAsync("alert", "An error occurred while fetching data. Please try again.");
+        }
+        finally
+        {
+            IsLoading = false;
+        }
+    }
+    private async Task GetServiceCodesAsync()
+    {
+        if (StartDate > EndDate)
+        {
+            await JSRuntime.InvokeVoidAsync("alert", "Start date must be earlier than or equal to the end date.");
+            return;
+        }
+
+        IsLoading = true;
+
+        try
+        {
+            Console.WriteLine($"Fetching data from {StartDate} to {EndDate}");
+            empdetails5 = await empServices.GetServiceCodesAsync(dealerCode, StartDate, EndDate);
+
+            Console.WriteLine($"Records retrieved: {empdetails5?.Length ?? 0}");
+        }
+        catch (Exception ex)
+        {
+            Console.Error.WriteLine($"Error fetching data: {ex.Message}");
+            empdetails5 = Array.Empty<ServiceCodesData>();
+            await JSRuntime.InvokeVoidAsync("alert", "An error occurred while fetching data. Please try again.");
+        }
+        finally
+        {
+            IsLoading = false;
+        }
+    }
+
+    private void Print()
+    {
+        JSRuntime.InvokeVoidAsync("Print");
     }
 }

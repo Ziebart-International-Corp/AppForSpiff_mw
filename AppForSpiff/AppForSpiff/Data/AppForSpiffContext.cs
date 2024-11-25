@@ -19,6 +19,10 @@ namespace AppForSpiff.Data
         public DbSet<AppForSpiff.Models.MainDataPackage> MainDataPackage { get; set; } = default!;
         public DbSet<AppForSpiff.Models.MainDataService> MainDataService { get; set; } = default!;
         public DbSet<AppForSpiff.Models.MainData> MainData { get; set; } = default!;
-        public DbSet<ChemicalsData> DisplayEmpRecords { get; set; } = default!;
+        public DbSet<ChemAccData> DisplayChemAccRecords { get; set; } = default!;
+        public DbSet<ChemData> DisplayChemRecords { get; set; } = default!;
+        public DbSet<AccData> DisplayAccRecords { get; set; } = default!;
+        public DbSet<PackagesData> DisplayPackagesRecords { get; set; } = default!;
+        public DbSet<ServiceCodesData> DisplayServiceCodesRecords { get; set; } = default!;
     }
 }

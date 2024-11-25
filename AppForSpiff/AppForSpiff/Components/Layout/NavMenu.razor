@@ -2,7 +2,7 @@
 
 @inject NavigationManager NavigationManager
 
-<div class="top-row ps-3 navbar navbar-dark">
+<div class="top-row ps-3 navbar navbar-dark hideWhenPrint">
     <div class="container-fluid">
         <a class="navbar-brand" href="">AppForSpiff</a>
     </div>
@@ -10,7 +10,7 @@
 
 <input type="checkbox" title="Navigation menu" class="navbar-toggler" />
 
-<div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
+<div class="nav-scrollable hideWhenPrint" onclick="document.querySelector('.navbar-toggler').click()">
     <nav class="flex-column">
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
@@ -49,8 +49,8 @@
         </div>
 
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="chemicals">
-                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Chemicals Output
+            <NavLink class="nav-link" href="detailedoutput">
+                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Detailed Output
             </NavLink>
         </div>
 
