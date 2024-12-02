@@ -60,8 +60,8 @@ namespace AppForSpiff.Data
         public string? VehicleTypeName { get; set; }
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
-        public int? Group_Package_Count { get; set; }
-        public int? Ind_Package_Count { get; set; }
+        public int? Group_1_Package_Count { get; set; }
+        public int? Group_2_Package_Count { get; set; }
         public decimal? Commission { get; set; }
     }
 
