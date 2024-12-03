@@ -32,7 +32,98 @@
     </div>
 </div>
 <br />
+<br />
 
+<p style="text-align: center;"><span style="font-size: 22px;">SUMMARY WEEKLY TOTALS:</span></p>
+<style>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+        font-size: 1em;
+        font-family: Arial, sans-serif;
+        text-align: left;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    thead {
+        background-color: #f4f4f4;
+    }
+
+    th, td {
+        padding: 12px 15px;
+        border: 1px solid #ddd;
+    }
+
+    th {
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+
+    tbody tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    tbody tr:hover {
+        background-color: #f1f1f1;
+    }
+
+    tbody td[colspan="7"] {
+        text-align: center;
+        font-style: italic;
+        color: #666;
+    }
+</style>
+
+<table>
+    <thead>
+        <tr>
+            <th>Dealer</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Chemicals Bonus</th>
+            <th>Accessories Bonus</th>
+            <th>Packages Bonus</th>
+            <th>Services Bonus</th>
+            <th>Services Percent Bonus</th>
+            <th>Grand Total</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (IsLoading)
+        {
+            <tr>
+                <td colspan="7">Loading...</td>
+            </tr>
+        }
+        else if (empdetails7 == null || !empdetails7.Any())
+        {
+            <tr>
+                <td colspan="7">No data available. Please select a date range and click "Run Query".</td>
+            </tr>
+        }
+        else
+        {
+            @foreach (var item7 in empdetails7)
+            {
+                <tr>
+                    <td>@item7.FIN_DEALER_CODE</td>
+                    <td>@item7.FIN_FIRST_NAME</td>
+                    <td>@item7.FIN_LAST_NAME</td>
+                    <td>@item7.FIN_CHEM_BONUS</td>
+                    <td>@item7.FIN_ACC_BONUS</td>
+                    <td>@item7.PKG_Commission</td>
+                    <td>@item7.SVS_Commission</td>
+                    <td>@item7.SVS_PCT_Commission</td>
+                    <td>@item7.GRAND_TOTAL</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+<br />
+<br />
 <p style="text-align: center;"><span style="font-size: 22px;">Section 1: Store Chemicals and Accessories:</span></p>
 <style>
     table {
@@ -114,9 +205,6 @@
         }
     </tbody>
 </table>
-
-<br />
-<br />
 
 <br />
 <br />
@@ -213,9 +301,6 @@
 <br />
 <br />
 
-<br />
-<br />
-
 <p style="text-align: left;">ACCESSORIES CALCULATIONS:</p>
 <style>
     table {
@@ -305,10 +390,6 @@
         }
     </tbody>
 </table>
-
-
-<br />
-<br />
 
 <br />
 <br />
@@ -406,10 +487,6 @@
     </tbody>
 </table>
 
-
-<br />
-<br />
-
 <br />
 <br />
 <p style="text-align: center;"><span style="font-size: 22px;">Section 3: Service Codes not in Packages:</span></p>
@@ -501,6 +578,98 @@
         }
     </tbody>
 </table>
+
+<br />
+<br />
+<p style="text-align: center;"><span style="font-size: 22px;">Section 4: Service Codes Percent Bonus:</span></p>
+<style>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+        font-size: 1em;
+        font-family: Arial, sans-serif;
+        text-align: left;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    thead {
+        background-color: #f4f4f4;
+    }
+
+    th, td {
+        padding: 12px 15px;
+        border: 1px solid #ddd;
+    }
+
+    th {
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+
+    tbody tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    tbody tr:hover {
+        background-color: #f1f1f1;
+    }
+
+    tbody td[colspan="7"] {
+        text-align: center;
+        font-style: italic;
+        color: #666;
+    }
+</style>
+
+<table>
+    <thead>
+        <tr>
+            <th>Dealer</th>
+            <th>Service Code</th>
+            <th>Invoice Number</th>
+            <th>Sales Price</th>
+            <th>Quantity</th>
+            <th>Model</th>
+            <th>Vehicle Type</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Service Codes PCT Bonus</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (IsLoading)
+        {
+            <tr>
+                <td colspan="7">Loading...</td>
+            </tr>
+        }
+        else if (empdetails6 == null || !empdetails6.Any())
+        {
+            <tr>
+                <td colspan="7">No data available. Please select a date range and click "Run Query".</td>
+            </tr>
+        }
+        else
+        {
+            @foreach (var item6 in empdetails6)
+            {
+                <tr>
+                    <td>@item6.DealerCode</td>
+                    <td>@item6.ServiceCode</td>
+                    <td>@item6.InvoiceNumber</td>
+                    <td>@item6.SalesPrice</td>
+                    <td>@item6.Quantity</td>
+                    <td>@item6.Model</td>
+                    <td>@item6.VehicleTypeName</td>
+                    <td>@item6.FirstName</td>
+                    <td>@item6.LastName</td>
+                    <td>@item6.Commission</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
 @code {
     private string dealerCode = string.Empty;
     private DateTime StartDate { get; set; } = DateTime.Today.AddDays(-7); // Default to last 7 days
@@ -511,6 +680,8 @@
     private Data.AccData[]? empdetails3;
     private Data.PackagesData[]? empdetails4;
     private Data.ServiceCodesData[]? empdetails5;
+    private Data.ServiceCodesPctData[]? empdetails6;
+    private Data.GrandTotalsData[]? empdetails7;
     private bool IsLoading { get; set; }
 
     private async Task ApplyDateFilter()
@@ -521,6 +692,8 @@
         await GetAccAsync();
         await GetPackagesAsync();
         await GetServiceCodesAsync();
+        await GetServiceCodesPctAsync();
+        await GetGrandTotalsAsync();
     }
 
     private async Task GetChemAccAsync()
@@ -666,7 +839,62 @@
             IsLoading = false;
         }
     }
+    private async Task GetServiceCodesPctAsync()
+    {
+        if (StartDate > EndDate)
+        {
+            await JSRuntime.InvokeVoidAsync("alert", "Start date must be earlier than or equal to the end date.");
+            return;
+        }
 
+        IsLoading = true;
+
+        try
+        {
+            Console.WriteLine($"Fetching data from {StartDate} to {EndDate}");
+            empdetails6 = await empServices.GetServiceCodesPctAsync(dealerCode, StartDate, EndDate);
+
+            Console.WriteLine($"Records retrieved: {empdetails6?.Length ?? 0}");
+        }
+        catch (Exception ex)
+        {
+            Console.Error.WriteLine($"Error fetching data: {ex.Message}");
+            empdetails6 = Array.Empty<ServiceCodesPctData>();
+            await JSRuntime.InvokeVoidAsync("alert", "An error occurred while fetching data. Please try again.");
+        }
+        finally
+        {
+            IsLoading = false;
+        }
+    }
+    private async Task GetGrandTotalsAsync()
+    {
+        if (StartDate > EndDate)
+        {
+            await JSRuntime.InvokeVoidAsync("alert", "Start date must be earlier than or equal to the end date.");
+            return;
+        }
+
+        IsLoading = true;
+
+        try
+        {
+            Console.WriteLine($"Fetching data from {StartDate} to {EndDate}");
+            empdetails7 = await empServices.GetGrandTotalsAsync(dealerCode, StartDate, EndDate);
+
+            Console.WriteLine($"Records retrieved: {empdetails7?.Length ?? 0}");
+        }
+        catch (Exception ex)
+        {
+            Console.Error.WriteLine($"Error fetching data: {ex.Message}");
+            empdetails7 = Array.Empty<GrandTotalsData>();
+            await JSRuntime.InvokeVoidAsync("alert", "An error occurred while fetching data. Please try again.");
+        }
+        finally
+        {
+            IsLoading = false;
+        }
+    }
     private void Print()
     {
         JSRuntime.InvokeVoidAsync("Print");

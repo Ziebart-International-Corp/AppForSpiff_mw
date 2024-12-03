@@ -82,8 +82,36 @@ namespace AppForSpiff.Data
         public decimal? Commission { get; set; }
     }
 
+    public class ServiceCodesPctData
+    {
+        [Key]
+        public long UniqueKey { get; set; }
+        public string? DealerCode { get; set; }
+        public string? ServiceCode { get; set; }
+        public int? InvoiceNumber { get; set; }
+        public decimal? SalesPrice { get; set; }
+        public decimal? Quantity { get; set; }
+        public string? Model { get; set; }
+        public string? VehicleTypeName { get; set; }
+        public string? FirstName { get; set; }
+        public string? LastName { get; set; }
+        public decimal? Commission { get; set; }
+    }
 
-
+    public class GrandTotalsData
+    {
+        [Key]
+        public long FIN_UNIQUE_KEY { get; set; }
+        public string? FIN_DEALER_CODE { get; set; }
+        public string? FIN_FIRST_NAME { get; set; }
+        public string? FIN_LAST_NAME { get; set; }
+        public decimal? FIN_CHEM_BONUS { get; set; }
+        public decimal? FIN_ACC_BONUS { get; set; }
+        public decimal? PKG_Commission { get; set; }
+        public decimal? SVS_Commission { get; set; }
+        public decimal? SVS_PCT_Commission { get; set; }
+        public decimal? GRAND_TOTAL { get; set; }
+    }
 
 
 }

@@ -24,5 +24,7 @@ namespace AppForSpiff.Data
         public DbSet<AccData> DisplayAccRecords { get; set; } = default!;
         public DbSet<PackagesData> DisplayPackagesRecords { get; set; } = default!;
         public DbSet<ServiceCodesData> DisplayServiceCodesRecords { get; set; } = default!;
+        public DbSet<ServiceCodesPctData> DisplayServiceCodesPctRecords { get; set; } = default!;
+        public DbSet<GrandTotalsData> DisplayGrandTotalsRecords { get; set; } = default!;
     }
 }

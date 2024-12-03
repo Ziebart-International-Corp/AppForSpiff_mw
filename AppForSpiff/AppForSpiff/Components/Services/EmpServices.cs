@@ -199,8 +199,78 @@ namespace AppForSpiff.Components.Services
                 return Array.Empty<ServiceCodesData>();
             }
         }
+        public async Task<ServiceCodesPctData[]> GetServiceCodesPctAsync(string dealerCode, DateTime StartDate, DateTime EndDate)
+        {
+            // Log the start and end dates passed to the method
+            Console.WriteLine($"[INFO] Executing stored procedure with StartDate: {StartDate}, EndDate: {EndDate}");
 
+            try
+            {
+                // Attempt to execute the stored procedure
+                var result6 = await _dbContext.DisplayServiceCodesPctRecords
+                    .FromSqlRaw("EXEC dbo.spiff_ServiceCodes_PCT @dealerCode = {0}, @startDate = {1}, @endDate = {2}", dealerCode, StartDate, EndDate)
+                    .ToArrayAsync();
 
+                // Log the number of records returned
+                Console.WriteLine($"[INFO] Records returned: {result6.Length}");
+
+                // Log success if records are returned
+                if (result6.Length > 0)
+                {
+                    Console.WriteLine("[INFO] Successfully fetched data from stored procedure.");
+                }
+                else
+                {
+                    Console.WriteLine("[WARN] No records found for the specified date range.");
+                }
+
+                return result6;
+            }
+            catch (Exception ex)
+            {
+                // Log the error message and stack trace for debugging
+                Console.Error.WriteLine($"[ERROR] Failed to execute stored procedure: {ex.Message}");
+                Console.Error.WriteLine($"[ERROR] Stack Trace: {ex.StackTrace}");
+
+                return Array.Empty<ServiceCodesPctData>();
+            }
+        }
+        public async Task<GrandTotalsData[]> GetGrandTotalsAsync(string dealerCode, DateTime StartDate, DateTime EndDate)
+        {
+            // Log the start and end dates passed to the method
+            Console.WriteLine($"[INFO] Executing stored procedure with StartDate: {StartDate}, EndDate: {EndDate}");
+
+            try
+            {
+                // Attempt to execute the stored procedure
+                var result7 = await _dbContext.DisplayGrandTotalsRecords
+                    .FromSqlRaw("EXEC dbo.spiff_Summary @dealerCode = {0}, @startDate = {1}, @endDate = {2}", dealerCode, StartDate, EndDate)
+                    .ToArrayAsync();
+
+                // Log the number of records returned
+                Console.WriteLine($"[INFO] Records returned: {result7.Length}");
+
+                // Log success if records are returned
+                if (result7.Length > 0)
+                {
+                    Console.WriteLine("[INFO] Successfully fetched data from stored procedure.");
+                }
+                else
+                {
+                    Console.WriteLine("[WARN] No records found for the specified date range.");
+                }
+
+                return result7;
+            }
+            catch (Exception ex)
+            {
+                // Log the error message and stack trace for debugging
+                Console.Error.WriteLine($"[ERROR] Failed to execute stored procedure: {ex.Message}");
+                Console.Error.WriteLine($"[ERROR] Stack Trace: {ex.StackTrace}");
+
+                return Array.Empty<GrandTotalsData>();
+            }
+        }
 
 
 
