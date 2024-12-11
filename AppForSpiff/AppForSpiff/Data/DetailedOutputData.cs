@@ -58,10 +58,10 @@ namespace AppForSpiff.Data
         public decimal? PackageTotal { get; set; }
         public string? Model { get; set; }
         public string? VehicleTypeName { get; set; }
-        public string? FirstName { get; set; }
-        public string? LastName { get; set; }
         public int? Group_1_Package_Count { get; set; }
         public int? Group_2_Package_Count { get; set; }
+        public string? FirstName { get; set; }
+        public string? LastName { get; set; }
         public decimal? Commission { get; set; }
     }
 
@@ -71,8 +71,9 @@ namespace AppForSpiff.Data
         [Key]
         public long UniqueKey { get; set; }
         public string? DealerCode { get; set; }
-        public string? ServiceCode { get; set; }
         public int? InvoiceNumber { get; set; }
+        public string? ServiceCode { get; set; }
+        public string? ServiceName { get; set; }
         public decimal? SalesPrice { get; set; }
         public decimal? Quantity { get; set; }
         public string? Model { get; set; }
@@ -87,8 +88,9 @@ namespace AppForSpiff.Data
         [Key]
         public long UniqueKey { get; set; }
         public string? DealerCode { get; set; }
-        public string? ServiceCode { get; set; }
         public int? InvoiceNumber { get; set; }
+        public string? ServiceCode { get; set; }
+        public string? ServiceName { get; set; }
         public decimal? SalesPrice { get; set; }
         public decimal? Quantity { get; set; }
         public string? Model { get; set; }
