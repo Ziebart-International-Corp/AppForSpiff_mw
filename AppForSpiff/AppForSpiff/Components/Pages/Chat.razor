@@ -40,7 +40,7 @@
         {
             Console.WriteLine($"Sending question: {UserQuestion}");
 
-            var response = await Http.PostAsJsonAsync("http://127.0.0.1:5000/chat", new { question = UserQuestion });
+            var response = await Http.PostAsJsonAsync("http://192.168.101.110:5000/chat", new { question = UserQuestion });
 
             if (response.IsSuccessStatusCode)
             {
@@ -67,7 +67,7 @@
     {
         try
         {
-            var response = await Http.PostAsJsonAsync("http://127.0.0.1:5000/chat", new { question = UserQuestion, new_answer = NewAnswer });
+            var response = await Http.PostAsJsonAsync("http://192.168.101.110:5000/chat", new { question = UserQuestion, new_answer = NewAnswer });
 
             if (response.IsSuccessStatusCode)
             {

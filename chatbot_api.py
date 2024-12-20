@@ -5,6 +5,7 @@ from flask_cors import CORS
 import logging
 
 app = Flask(__name__)
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 logging.basicConfig(level=logging.INFO)
 
@@ -67,4 +68,4 @@ def chat():
         return jsonify({"answer": "Sorry, I don't know the answer to that question."})
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=False)
