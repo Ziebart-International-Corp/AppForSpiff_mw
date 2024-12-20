@@ -1,0 +1,38 @@
+﻿@page "/test"
+
+@inject HttpClient Http
+@rendermode InteractiveServer
+
+<h3>Test HttpClient</h3>
+<button @onclick="TestHttpClient">Test API</button>
+<p>@ResponseMessage</p>
+
+@code {
+    private string ResponseMessage = "Waiting for test...";
+
+    private async Task TestHttpClient()
+    {
+        Console.WriteLine("Button clicked. Sending request...");
+        try
+        {
+            var response = await Http.PostAsJsonAsync("chat", new { question = "What is Python?" });
+            Console.WriteLine($"Response status code: {response.StatusCode}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                ResponseMessage = await response.Content.ReadAsStringAsync();
+                Console.WriteLine($"Response received: {ResponseMessage}");
+            }
+            else
+            {
+                ResponseMessage = $"Error: {response.StatusCode}";
+                Console.WriteLine($"Error response: {response.StatusCode}");
+            }
+        }
+        catch (Exception ex)
+        {
+            ResponseMessage = $"Exception: {ex.Message}";
+            Console.WriteLine($"Exception: {ex.Message}");
+        }
+    }
+}

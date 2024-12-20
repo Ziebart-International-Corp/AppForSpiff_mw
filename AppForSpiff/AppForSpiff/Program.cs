@@ -70,6 +70,8 @@ builder.Services.ConfigureApplicationCookie(opt =>
 //mw
 builder.Services.AddScoped<EmpServices>();
 
+builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("http://127.0.0.1:5000/") });
+
 
 var app = builder.Build();
 

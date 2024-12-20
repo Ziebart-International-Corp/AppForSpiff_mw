@@ -7,6 +7,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppForSpiff", "AppForSpiff\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppForSpiff.Client", "AppForSpiff\AppForSpiff.Client\AppForSpiff.Client.csproj", "{B55F965E-051C-4337-8D50-5C1F1904D744}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ChatbotAPI", "ChatbotAPI", "{419A76AE-A142-4D59-AF37-007FAC753A62}"
+	ProjectSection(SolutionItems) = preProject
+		chatbot_api.py = chatbot_api.py
+		knowledge_base.json = knowledge_base.json
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

@@ -1,0 +1,95 @@
+﻿@page "/chat"
+
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize(Roles = "Admin")]
+@inject HttpClient Http
+@rendermode InteractiveServer
+
+<h3>Chat with Chatbot</h3>
+
+<div>
+    <label for="userQuestion">Enter your question:</label>
+    <input type="text" id="userQuestion" @bind="UserQuestion" />
+    <button @onclick="SendQuestion">Ask</button>
+</div>
+
+@if (!string.IsNullOrEmpty(Answer))
+{
+    <h4>Bot's Response:</h4>
+    <p>@Answer</p>
+}
+
+@if (ShowTeachBot)
+{
+    <div>
+        <label for="newAnswer">Teach the bot:</label>
+        <input type="text" id="newAnswer" @bind="NewAnswer" />
+        <button @onclick="TeachBot">Submit Answer</button>
+    </div>
+}
+
+@code {
+    private string UserQuestion { get; set; } = string.Empty;
+    private string Answer { get; set; } = string.Empty;
+    private string NewAnswer { get; set; } = string.Empty;
+    private bool ShowTeachBot { get; set; } = false;
+
+    private async Task SendQuestion()
+    {
+        try
+        {
+            Console.WriteLine($"Sending question: {UserQuestion}");
+
+            var response = await Http.PostAsJsonAsync("http://127.0.0.1:5000/chat", new { question = UserQuestion });
+
+            if (response.IsSuccessStatusCode)
+            {
+                var result = await response.Content.ReadFromJsonAsync<ChatResponse>();
+                Answer = result?.Answer ?? "No answer received.";
+                if (Answer.Contains("Sorry, I don't know the answer"))
+                {
+                    ShowTeachBot = true;
+                }
+            }
+            else
+            {
+                Answer = $"Error communicating with the chatbot: {response.StatusCode}";
+            }
+        }
+        catch (Exception ex)
+        {
+            Answer = $"An error occurred: {ex.Message}";
+            Console.WriteLine($"Exception: {ex}");
+        }
+    }
+
+    private async Task TeachBot()
+    {
+        try
+        {
+            var response = await Http.PostAsJsonAsync("http://127.0.0.1:5000/chat", new { question = UserQuestion, new_answer = NewAnswer });
+
+            if (response.IsSuccessStatusCode)
+            {
+                var result = await response.Content.ReadFromJsonAsync<ChatResponse>();
+                Answer = result?.Answer ?? "No answer received.";
+                ShowTeachBot = false;
+                NewAnswer = string.Empty;
+            }
+            else
+            {
+                Answer = $"Error teaching the chatbot: {response.StatusCode}";
+            }
+        }
+        catch (Exception ex)
+        {
+            Answer = $"An error occurred: {ex.Message}";
+            Console.WriteLine($"Exception: {ex}");
+        }
+    }
+
+    public class ChatResponse
+    {
+        public string Answer { get; set; }
+    }
+}
