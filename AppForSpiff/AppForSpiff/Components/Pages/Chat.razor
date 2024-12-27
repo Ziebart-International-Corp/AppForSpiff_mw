@@ -7,26 +7,38 @@
 
 <h3>Chat with Chatbot</h3>
 
-<div>
-    <label for="userQuestion">Enter your question:</label>
-    <input type="text" id="userQuestion" @bind="UserQuestion" />
-    <button @onclick="SendQuestion">Ask</button>
+<div style="max-width: 600px; margin: 0 auto; padding: 20px; font-family: Arial, sans-serif; background-color: #f9f9f9; border-radius: 10px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+    <h2 style="color: #333; text-align: center;">Ask the Bot</h2>
+    <div style="margin-bottom: 20px;">
+        <label for="userQuestion" style="display: block; font-weight: bold; margin-bottom: 5px;">Enter your question:</label>
+        <textarea id="userQuestion" @bind="UserQuestion" rows="5" style="width: 100%; padding: 10px; font-size: 16px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box;"></textarea>
+    </div>
+    <button @onclick="SendQuestion" style="width: 100%; padding: 10px; font-size: 16px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer; transition: background-color 0.3s;">
+        Ask
+    </button>
+
+    @if (!string.IsNullOrEmpty(Answer))
+    {
+        <div style="margin-top: 20px; background-color: #e8f5e9; padding: 15px; border-radius: 5px; border-left: 4px solid #4CAF50;">
+            <h4 style="color: #333; margin-top: 0;">Bot's Response:</h4>
+            <p style="margin: 0; font-size: 16px;">@Answer</p>
+        </div>
+    }
+
+    @if (ShowTeachBot)
+    {
+        <div style="margin-top: 30px;">
+            <h3 style="color: #333;">Teach the Bot</h3>
+            <label for="newAnswer" style="display: block; font-weight: bold; margin-bottom: 5px;">Provide a new answer:</label>
+            <textarea id="newAnswer" @bind="NewAnswer" rows="5" style="width: 100%; padding: 10px; font-size: 16px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box;"></textarea>
+            <button @onclick="TeachBot" style="width: 100%; margin-top: 10px; padding: 10px; font-size: 16px; background-color: #2196F3; color: white; border: none; border-radius: 5px; cursor: pointer; transition: background-color 0.3s;">
+                Submit Answer
+            </button>
+        </div>
+    }
 </div>
 
-@if (!string.IsNullOrEmpty(Answer))
-{
-    <h4>Bot's Response:</h4>
-    <p>@Answer</p>
-}
 
-@if (ShowTeachBot)
-{
-    <div>
-        <label for="newAnswer">Teach the bot:</label>
-        <input type="text" id="newAnswer" @bind="NewAnswer" />
-        <button @onclick="TeachBot">Submit Answer</button>
-    </div>
-}
 
 @code {
     private string UserQuestion { get; set; } = string.Empty;
